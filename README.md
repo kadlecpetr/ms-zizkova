@@ -1,0 +1,179 @@
+# Web MŠ Žižkova, Brno
+
+Statický web mateřské školy – čistý HTML/CSS/JS, bez frameworků, bez databáze.
+Nasadí se na jakýkoli hosting (FTP, Netlify, Vercel, GitHub Pages, i současný Webnode).
+
+---
+
+## Co je hotové
+
+| Stránka | Soubor | Obsah |
+|---|---|---|
+| Domů | `index.html` | představení školy, motto, filozofie, 3 rychlé odkazy, zaměření, hodnoty, aktuality |
+| Škola | `skola.html` | kdo jsme, vybavení, školní zahrada, náš tým, provoz a režim dne |
+| Vzdělávání | `vzdelavani.html` | ŠVP, zaměření (polytechnika–ekologie–umění), jak učíme, předškoláci, projekty |
+| Pro rodiče | `pro-rodice.html` | noví rodiče, adaptace, aplikace Naše MŠ, dokumenty, stravování, kroužky, platby, prázdniny |
+| Zápis do MŠ | `zapis.html` | postup krok za krokem, kritéria, dokumenty, FAQ |
+| Aktuality | `aktuality.html` | fixní „Důležité informace“ nahoře + chronologické novinky |
+| Fotogalerie | `fotogalerie.html` | mřížka pro reprezentativní fotky |
+| Kontakty | `kontakty.html` | kontaktní údaje, osoby, mapa, doprava, povinně zveřejňované informace |
+
+Hlavní menu má **6 položek** (Domů · Škola · Vzdělávání · Pro rodiče · Aktuality · Kontakty),
+**Zápis do MŠ** je vytažený jako výrazné tlačítko v hlavičce a jako první rychlý odkaz na úvodu –
+podle doporučení v zadání. Sekce „Akce“ zrušena, vše je sjednocené v Aktualitách.
+
+---
+
+## Struktura složek
+
+```
+ms-zizkova/
+├── index.html … kontakty.html   ← vygenerované stránky (needitovat ručně, viz níže)
+├── build.py                     ← generátor: TEXTY A OBSAH SE MĚNÍ TADY
+├── sitemap.xml, robots.txt
+└── assets/
+    ├── css/style.css            ← kompletní design systém
+    ├── js/main.js               ← mobilní menu, podnavigace, rok v patičce
+    ├── img/                     ← logo, značka, favicon, podkres
+    └── dokumenty/               ← všechny PDF/DOCX stažené ze starého webu
+```
+
+### Jak měnit obsah
+
+Stránky se generují z `build.py`. Postup:
+
+```bash
+# 1) uprav texty v build.py
+# 2) přegeneruj web
+python3 build.py
+```
+
+Nejčastější úpravy v `build.py`:
+
+| Co | Kde v `build.py` |
+|---|---|
+| telefon, e-mail, adresa, jména, kapacita | slovník `SKOLA` (úplně nahoře) |
+| položky menu a podmenu | seznam `NAV` |
+| nová aktualita | seznam `NOVINKY` |
+| důležité info (fixní blok nahoře) | seznam `DULEZITE` |
+| tři oblasti zaměření | seznam `PILIRE` |
+| hodnoty školy | seznam `HODNOTY` |
+| tým / třídy | seznam `TYM` |
+| režim dne | seznam `REZIM` |
+| dokumenty ke stažení | seznam `DOKUMENTY` |
+
+Kdyby build skript vadil, jde ho zahodit a editovat `.html` přímo – jsou to obyčejné statické
+soubory. Pak se ale hlavička/patička musí měnit na osmi místech.
+
+---
+
+## Logo
+
+Podle připomínky, že současné logo je příliš vysoké a nepůsobí moderně, vznikla nová
+**nízká vodorovná verze**: čtvercová značka (domeček se zahradou v přechodu modrá → eukalypt)
++ wordmark v písmu Outfit. Poměr stran 4:1, takže se vejde do úzké hlavičky webu.
+
+| Soubor | Použití |
+|---|---|
+| `assets/img/logo.svg` | web, světlé pozadí |
+| `assets/img/logo-inverzni.svg` | tmavé pozadí (patička, prezentace) |
+| `assets/img/logo-jednobarevne.svg` | jednobarevný tisk, razítko, faxová kvalita |
+| `assets/img/logo-hlavickovy-papir.svg` | **hlavičkový papír** – plný název + adresní řádek |
+| `assets/img/znacka.svg` | samotná značka (avatar, razítko, sociální sítě) |
+| `assets/img/favicon.svg` | ikona v prohlížeči |
+| `*.png` (`@4x`, `@8x`) | tytéž verze v PNG s průhledným pozadím pro Word, Canva apod. |
+
+Písmo je v SVG **vložené** (embedded woff2), takže se logo zobrazí správně i na počítači,
+kde Outfit nainstalovaný není.
+
+Barvy značky:
+
+```
+modrá     #4A72AC      tmavá modrá   #1E3350
+eukalypt  #6E9C87      mint          #A9CDBB
+teal      #4E8E9B      papír         #FCFCFA
+```
+
+---
+
+## Grafický podkres
+
+`assets/img/podkres.svg` je bezešvá dlaždice 520 × 520 px s jemnou mozaikou dětských kreseb
+(sluníčko, domeček, kytka, loďka, notička, ozubené kolo, lupa, list…) v barvách palety.
+Používá se v hero sekci, na hlavičkách podstránek a ve vybraných sekcích.
+
+**Až dorazí skeny skutečných dětských výkresů**, stačí připravit z nich jednu dlaždici
+(ideálně čtverec, světlá, hodně vzdušná) a v `assets/css/style.css` přepsat jediný řádek:
+
+```css
+:root{
+  --pattern: url("../img/podkres-vykresy.png");  /* vlastní mozaika */
+  --pattern-size: 520px;      /* velikost dlaždice */
+  --pattern-opacity: .22;     /* jak moc má prosvítat */
+}
+```
+
+Nic dalšího se měnit nemusí – podkres se propíše na všech místech najednou.
+
+---
+
+## Co je potřeba doplnit od školky
+
+1. **Profesionální fotografie** – místo šedých zástupných ploch (`FOTO: …`).
+   Podle zadání bez identifikovatelných dětí – budova, zahrada, herny, detaily, ruce při práci.
+   Fotky nahrát do `assets/img/` a v `build.py` nahradit volání `ph("…")` značkou `<img>`.
+2. **Skeny dětských výkresů** na podkres (viz výše).
+3. **Termíny zápisu 2027/2028** a aktuální kritéria – `zapis_page()` v `build.py`.
+4. **Ověření týmu** – jmenný seznam je převzatý ze starého webu, kde nebylo úplně jednoznačné
+   přiřazení k třídám. Prosím zkontrolovat seznam `TYM` v `build.py`.
+5. **Režim dne** – vložený rozvrh je obvyklý rámec pro MŠ, ne oficiální dokument školy.
+   Potřebuje potvrdit / upravit (`REZIM` v `build.py`).
+6. **Jídelníček** – `assets/dokumenty/jidelnicek-aktualni.pdf`. Při týdenní aktualizaci se jen
+   přepíše soubor pod stejným názvem, na webu se nic měnit nemusí.
+7. **Odkaz na aplikaci Naše MŠ** – zatím vede na kontakty; až bude k dispozici přihlašovací
+   URL školy, doplní se.
+
+---
+
+## Poznámka k obsahu
+
+V podkladech byly dvě různé polohy školy:
+
+* starší profilace ze současného webu – **výtvarné a keramické činnosti, pohyb, práce s knihou**,
+* nový dokument *Hodnoty – vize – zaměření* (30. 6. 2026) – **polytechnika, ekologie, umění**.
+
+Web staví na **nové** vizi (tři oblasti zaměření = hlavní sdělení), zároveň ale nezahazuje
+dosavadní profilaci – ta je na stránce *Vzdělávání* v bloku „Další oblasti, které u nás mají
+pevné místo“. Název ŠVP *„Radostně objevujeme svět“* je zachovaný jako motto webu.
+
+Z dokumentu *Vize a hodnoty* byla použita **kratší varianta pro web** (30. 6. 2026); delší verze
+s důrazem na bezpečí a stabilitu je promítnutá do sekce Hodnoty.
+
+---
+
+## Lokální náhled
+
+```bash
+cd ms-zizkova
+python3 -m http.server 8000
+# → http://localhost:8000
+```
+
+## Nasazení
+
+Nahrát obsah složky na hosting (FTP / rsync / git). Žádný build na serveru není potřeba.
+Před ostrým nasazením zkontrolovat:
+
+* doménu v `sitemap.xml` a `robots.txt` (`SKOLA["web"]` v `build.py`),
+* přesměrování starých URL (`/o-skolce/` → `/skola.html`, `/akce/` → `/aktuality.html` atd.).
+
+---
+
+## Přístupnost a technika
+
+* sémantické HTML, `lang="cs"`, přeskočení na obsah, viditelný focus
+* mobilní menu ovladatelné klávesnicí, zavírá se Escapem
+* respektuje `prefers-reduced-motion`
+* strukturovaná data schema.org `Preschool` (Google – mapa, otevírací doba)
+* mapa přes OpenStreetMap – bez cookies třetích stran a bez API klíče
+* vlastní styl pro tisk
