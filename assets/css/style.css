@@ -234,6 +234,24 @@ p:last-child{margin-bottom:0}
 .hero h1 em{font-style:normal;color:var(--euca-600)}
 .hero__text{font-size:clamp(1.1rem,1rem + .5vw,1.3rem);max-width:32em;color:#26374A;font-weight:500;line-height:1.58}
 .hero__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:2em}
+.hero__link{
+  display:inline-flex;align-items:center;gap:.7em;margin-top:1.5em;
+  font-family:var(--font-display);font-weight:600;font-size:1rem;
+  color:var(--euca-700);text-decoration:none;transition:.18s
+}
+.hero__link:hover{color:var(--euca-600);text-decoration:none}
+.hero__link:hover .hero__link-ico{background:var(--mint-100);border-color:var(--euca-400)}
+.hero__link:hover .btn__arrow{transform:translateX(3px)}
+.hero__link-ico{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;
+  background:#fff;border:1px solid var(--mint-200);color:var(--euca-700);
+  box-shadow:0 2px 8px rgba(30,51,80,.07);transition:.18s
+}
+.hero__link-title{display:inline-flex;align-items:center;gap:.45em}
+.hero__link-note{
+  display:block;font-family:var(--font-body);font-weight:400;
+  font-size:.82rem;color:var(--muted);line-height:1.3
+}
 
 .hero__media{position:relative}
 .hero__photo{

@@ -388,6 +388,13 @@ def index_page():
       <a class="btn btn--primary" href="zapis.html">{ico("zapis",17)} Zápis do MŠ</a>
       <a class="btn btn--ghost" href="skola.html">Poznejte naši školku {SIPKA}</a>
     </div>
+    <a class="hero__link" href="assets/dokumenty/jidelnicek-aktualni.pdf" target="_blank" rel="noopener">
+      <span class="hero__link-ico">{ico("jidlo",18)}</span>
+      <span>
+        <span class="hero__link-title">Jídelníček na tento týden {SIPKA}</span>
+        <span class="hero__link-note">PDF &middot; aktualizujeme každý týden</span>
+      </span>
+    </a>
   </div>
   <div class="hero__media">
     <div class="hero__photo">{ph("Foto: budova školy a zahrada")}</div>
