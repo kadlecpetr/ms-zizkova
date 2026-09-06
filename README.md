@@ -129,8 +129,25 @@ uloží webovou velikost (1400 px) a náhled (640 px).
 Nové výkresy stačí nahrát do `podklady/vykresy-original/`, spustit skript a přidat řádek
 do seznamu `VYKRESY` v `build.py`.
 
-Kde jsou na webu: úvodní strana (čtyři kusy), Fotogalerie (všech 14), Vzdělávání
-(u zaměření školy) a Škola → Náš tým (společná kresba „Naše děti“).
+Kde jsou na webu – **výkresy zastupují všechna místa, kde ještě nejsou fotky**,
+takže na webu není jediná šedá zástupná plocha:
+
+| stránka | co tam je |
+|---|---|
+| Úvodní strana | sekce „Takhle naši školku vidí děti“ – čtyři výkresy |
+| Škola → Vybavení | tři výkresy místo fotek heren |
+| Škola → Školní zahrada | jeden výkres |
+| Škola → Náš tým | široký pás se společnou kresbou „Naše děti“ |
+| Vzdělávání → Zaměření | tři výkresy |
+| Pro rodiče → Adaptace | jeden výkres |
+| Fotogalerie | všech 14 jako hlavní sekce |
+
+Až dorazí profesionální fotky, nahradí se ve `build.py` volání `vykres(...)` /
+`vykresy_mrizka(...)` funkcí `foto(...)` – výkresy zůstanou v galerii a na úvodní straně.
+
+Chybějící fotky, na které se čeká: herny Zajíčků / Ježečků / Veverek, vstup a šatna,
+školní zahrada, pískoviště a herní prvky, bylinkové záhonky, keramická dílna,
+technická dílna s ponkem, detail dětských rukou při tvoření, certifikáty a projekty.
 
 > **K rozhodnutí pro školku:** v kresbách jsou vidět křestní jména dětí (ISABELLA, JOHANA,
 > MEDA…). Vzhledem k tomu, že fotky dětí na web záměrně nedáváme, je na místě potvrdit,

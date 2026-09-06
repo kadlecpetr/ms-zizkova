@@ -692,18 +692,16 @@ def skola_page():
         <p>Všechny hračky a vybavení tříd splňují bezpečnostní požadavky. Vybavení hračkami, didaktickým
            materiálem a pomůckami průběžně doplňujeme a obnovujeme.</p></article>
     </div>
-    <div class="grid grid-3" style="margin-top:24px">
-      <figure style="margin:0;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3">{ph("Foto: herna")}</figure>
-      <figure style="margin:0;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3">{ph("Foto: detail vybavení")}</figure>
-      <figure style="margin:0;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3">{ph("Foto: keramická dílna")}</figure>
-    </div>
+    <p class="small muted" style="margin-top:30px;margin-bottom:14px">
+      Jak naši školku vidí děti ze tříd:</p>
+    {vykresy_mrizka(["03","07","10"])}
   </div>
 </section>
 
 <section class="section" id="zahrada">
   <div class="wrap">
     <div class="grid grid-2" style="align-items:center">
-      <div>{ph("Foto: školní zahrada", "4/3.2")}</div>
+      <div>{vykres("14", "Naše školka", "zahrada očima dětí", lazy=True)}</div>
       <div>
         {head("Školní zahrada", "Zahrada jako druhá třída")}
         <p>Rozlehlá školní zahrada je jedním z největších bohatství naší školky. Děti tu tráví každý den
@@ -843,7 +841,7 @@ def vzdelavani_page():
       <div class="grid grid-3">{propojeni}</div>
     </div>
     <div style="margin-top:26px">
-      {vykresy_mrizka(["02","11","14"])}
+      {vykresy_mrizka(["02","11","12"])}
     </div>
     <div class="card" style="margin-top:26px">
       <h3>Další oblasti, které u nás mají pevné místo</h3>
@@ -1052,7 +1050,7 @@ def pro_rodice_page():
             na rozloučenou, plácnutí, zamávání z okna nebo cokoli jiného, co se dítěti líbí a do čeho se zapojí.</p>
         </div></details>
       </div>
-      <div>{ph("Ilustrační foto: šatna, detail", "4/4.4")}</div>
+      <div>{vykres("09", "Naše školka", "kresba pastelkou", lazy=True)}</div>
     </div>
   </div>
 </section>
@@ -1388,16 +1386,10 @@ def aktuality_page():
 # ═════════════════════════════════════════════════════════════
 #  FOTOGALERIE
 # ═════════════════════════════════════════════════════════════
-GALERIE = ["Vstup a šatna", "Herna Zajíčků", "Herna Ježečků", "Herna Veverek",
-           "Školní zahrada", "Pískoviště a herní prvky", "Bylinkové záhonky", "Keramická dílna",
-           "Technická dílna a ponk", "Detail – dětské ruce při tvoření", "Certifikáty a projekty"]
-
 def fotogalerie_page():
-    obr = ('<figure>' + foto("budova-nahled.jpg", "Budova mateřské školy Žižkova", 640, 480) + '</figure>'
-           + "".join(f'<figure>{ph(t)}</figure>' for t in GALERIE))
     body = pagehead("Fotogalerie",
-        "Nejdřív to nejcennější – jak naši školku nakreslily samy děti. Pod výkresy najdete "
-        "fotografie budovy, tříd a zahrady. Fotografie dětí na webu záměrně nezveřejňujeme.",
+        "Nejdřív to nejcennější – jak naši školku nakreslily samy děti. Fotografie budovy "
+        "a zahrady doplňujeme postupně, po profesionálním focení.",
         [("Domů","index.html"),("Fotogalerie",None)]) + f'''
 <section class="section">
   <div class="wrap">
@@ -1410,8 +1402,20 @@ def fotogalerie_page():
 
 <section class="section section--blue">
   <div class="wrap">
-    {head("Fotografie", "Budova, třídy a zahrada")}
-    <div class="gallery">{obr}</div>
+    {head("Fotografie", "Budova a zahrada")}
+    <div class="grid grid-2" style="align-items:center;gap:clamp(24px,3vw,40px)">
+      <figure style="margin:0;border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-md);aspect-ratio:4/3">
+        {foto("budova-hero.jpg", "Budova mateřské školy Žižkova – vstup s balkonem", 960, 720)}</figure>
+      <div class="card">
+        <div class="card__icon">{ico("fotak")}</div>
+        <h3>Fotogalerii postupně doplňujeme</h3>
+        <p>Připravujeme profesionální fotografie heren, školní zahrady, keramické dílny
+          a dalších míst, kde děti tráví den. Fotografie dětí na webu záměrně nezveřejňujeme –
+          ukazujeme prostředí, detaily a ruce při práci.</p>
+        <p style="margin-top:16px"><a class="btn btn--ghost btn--sm" href="kontakty.html">
+          Chcete se přijít podívat naživo? {SIPKA}</a></p>
+      </div>
+    </div>
   </div>
 </section>
 {cta("Nejlepší je vidět školku naživo",
