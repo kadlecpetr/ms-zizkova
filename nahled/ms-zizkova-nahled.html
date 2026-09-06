@@ -582,17 +582,7 @@ p:last-child{margin-bottom:0}
 }
 
 
-/* --- pruh náhledu a náhrada mapy (jen v tomto souboru) --- */
-.nahled-pruh{
-  background:var(--mint-100);border-bottom:1px solid var(--mint-200);
-  color:var(--euca-700);font-family:var(--font-display);font-size:.86rem;font-weight:500
-}
-.nahled-pruh__in{display:flex;flex-wrap:wrap;gap:.3em 1.4em;align-items:center;justify-content:space-between;padding-block:.65em}
-.nahled-pruh b{color:var(--ink);font-weight:600}
-.nahled-pruh span{color:var(--muted);font-weight:400;font-family:var(--font-body);font-size:.83rem}
-.doc[data-bez-souboru]{opacity:.62;cursor:default}
-.doc[data-bez-souboru]:hover{border-color:var(--line);background:#fff;transform:none}
-.doc[data-bez-souboru] small::after{content:" · v náhledu nedostupné";color:var(--muted)}
+/* --- náhrada mapy (jen v tomto souboru) --- */
 .map--odkaz{
   display:grid;place-items:center;text-align:center;text-decoration:none;
   background:linear-gradient(150deg,var(--blue-100),var(--mint-100));padding:36px
@@ -603,10 +593,6 @@ p:last-child{margin-bottom:0}
 
 </style>
 
-<div class="nahled-pruh"><div class="wrap nahled-pruh__in">
-  <b>Náhled nového webu MŠ Žižkova</b>
-  <span>Fotografie jsou zatím zástupné &middot; podkres nahradíme mozaikou dětských výkresů</span>
-</div></div>
 
 <a class="skip" href="#index/obsah">Přeskočit na obsah</a>
 <div class="topbar"><div class="wrap topbar__in">

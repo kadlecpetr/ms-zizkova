@@ -330,12 +330,11 @@ Aktualizace po jakékoli úpravě webu:
 ./nasad-nahled.sh
 ```
 
-Náhled se od ostré verze liší jen ve třech věcech, které přidává
-`podklady/pripravit_nahled.py`:
+Náhled vypadá úplně stejně jako ostrá verze. `podklady/pripravit_nahled.py`
+mění jen dvě věci, které nejsou vidět:
 
 * `<meta name="robots" content="noindex,nofollow">` na každé stránce,
-* `robots.txt` se zákazem indexace, `sitemap.xml` se do náhledu nedává,
-* úzký pruh nahoře „Náhled nového webu“.
+* `robots.txt` se zákazem indexace, `sitemap.xml` se do náhledu nedává.
 
 > **Proč noindex:** repozitář je veřejný, takže bez toho by Google mohl náhled
 > zaindexovat a konkuroval by pak skutečné doméně školky duplicitním obsahem.

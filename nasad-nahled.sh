@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 echo "1/4  generuji web…"
 python3 build.py > /dev/null
 
-echo "2/4  připravuji náhled (noindex + pruh)…"
+echo "2/4  připravuji náhled (noindex)…"
 python3 podklady/pripravit_nahled.py /tmp/ms-zizkova-pages > /dev/null
 
 echo "3/4  odesílám na větev gh-pages…"
