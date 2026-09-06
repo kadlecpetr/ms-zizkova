@@ -987,8 +987,14 @@ def projekty_page():
           "<strong>MAP Brno V</strong> – místní akční plán rozvoje vzdělávání",
         ])}</div>
       <div>{vykresy_mrizka(["06","13"], male=True)}
-        <p class="small muted" style="margin-top:14px">
-          <a href="assets/dokumenty/plakat-map-brno-v.pdf">{ico("dokument",15)} Plakát MAP Brno V (PDF)</a></p>
+        <div class="docs" style="margin-top:16px">
+          <a class="doc" href="assets/dokumenty/osvedceni-mrkvicka-2026.pdf">
+            <span class="doc__ico">{ico("list",18)}</span>
+            <span><b>Osvědčení Mrkvička</b><small>platnost registrace do 31. 12. 2026 · PDF</small></span></a>
+          <a class="doc" href="assets/dokumenty/plakat-map-brno-v.pdf">
+            <span class="doc__ico">{ico("dokument",18)}</span>
+            <span><b>Plakát MAP Brno V</b><small>publicita projektu · PDF</small></span></a>
+        </div>
       </div>
     </div>
   </div>
@@ -1036,15 +1042,15 @@ def projekty_page():
 #  PRO RODIČE
 # ═════════════════════════════════════════════════════════════
 DOKUMENTY = [
+ ("Školní řád", "č. j. 94/26 · účinný od 1. 9. 2026 · PDF", "skolni-rad-2026-2027.pdf"),
  ("Školní vzdělávací program", "„Radostně objevujeme svět“ · DOCX", "skolni-vzdelavaci-program.docx"),
- ("Školní řád", "platný od 1. 9. 2024 · DOCX", "skolni-rad.docx"),
- ("Dodatek ke školnímu řádu", "PDF", "dodatek-ke-skolnimu-radu.pdf"),
  ("Řád školní jídelny", "školní rok 2026/2027 · DOCX", "rad-skolni-jidelny-2026-2027.docx"),
  ("Úplata za předškolní vzdělávání", "školné 2026/2027 · PDF", "uplata-skolne-2026-2027.pdf"),
  ("Úplata za stravování", "stravné 2026/2027 · DOCX", "uplata-stravne-2026-2027.docx"),
- ("Potvrzení o zaplacení školného", "formulář · DOC", "potvrzeni-o-zaplaceni-skolneho.doc"),
- ("Spádové obvody mateřských škol", "PDF", "spadove-obvody-ms.pdf"),
- ("Dítě do MŠ jen když je zdravé", "doporučení pro rodiče · PDF", "dite-do-ms-jen-kdyz-je-zdrave.pdf"),
+ ("Dítě nechodí do školky pořád, jen když je zdravé",
+  "průvodce pro rodiče 2026/2027 · PDF", "dite-do-ms-jen-kdyz-je-zdrave.pdf"),
+ ("Školské obvody mateřských škol",
+  "obecně závazná vyhláška města Brna · PDF", "skolske-obvody-ms-brno.pdf"),
  ("Prázdninový provoz 2026", "přehled náhradních školek · XLSX", "prazdninovy-provoz-2026.xlsx"),
  ("Informační memorandum GDPR", "zpracování osobních údajů · PDF", "gdpr-informacni-memorandum.pdf"),
  ("Zřizovací listina", "PDF", "zrizovaci-listina.pdf"),
@@ -1053,8 +1059,21 @@ DOKUMENTY = [
  ("Střednědobý výhled rozpočtu", "2026–2028 · PDF", "strednedoby-vyhled-rozpoctu-2026-2028.pdf"),
 ]
 
-def docs_html(vyber=None):
-    polozky = DOKUMENTY if vyber is None else [d for d in DOKUMENTY if d[2] in vyber]
+# formuláře, které rodiče vyplňují a odevzdávají ve školce
+FORMULARE = [
+ ("Oznámení o nepřítomnosti dítěte", "omluvenka delší nepřítomnosti · DOCX",
+  "formular-oznameni-o-nepritomnosti.docx"),
+ ("Žádost o přijetí na prázdninový provoz", "hlavní prázdniny · DOC",
+  "formular-prihlaska-prazdninovy-provoz.doc"),
+ ("Potvrzení o zaplacení školného", "pro zaměstnavatele · DOC",
+  "potvrzeni-o-zaplaceni-skolneho.doc"),
+ ("Oznámení o ukončení docházky", "odhlášení dítěte z MŠ · DOCX",
+  "formular-oznameni-o-ukonceni-dochazky.docx"),
+]
+
+def docs_html(vyber=None, zdroj=None):
+    zdroj = zdroj if zdroj is not None else DOKUMENTY
+    polozky = zdroj if vyber is None else [d for d in zdroj if d[2] in vyber]
     return '<div class="docs">' + "".join(
         f'''<a class="doc" href="assets/dokumenty/{soubor}">
         <span class="doc__ico">{ico("dokument",18)}</span>
@@ -1084,6 +1103,9 @@ def pro_rodice_page():
           "hygienické potřeby podle pokynů třídní učitelky",
           "vše prosím podepsané nebo označené značkou dítěte",
         ])}
+        <p style="margin-top:20px"><a class="btn btn--ghost btn--sm"
+          href="assets/dokumenty/dite-do-ms-jen-kdyz-je-zdrave.pdf">
+          {ico("stahnout",16)} Kdy dítě do školky nepatří (PDF)</a></p>
       </div>
       <div class="card card--green">
         <div class="card__icon">{ico("kalendar")}</div>
@@ -1143,8 +1165,20 @@ def pro_rodice_page():
 <section class="section section--blue" id="dokumenty">
   <div class="wrap">
     {head("Dokumenty", "Dokumenty ke stažení",
-      "Školní vzdělávací program, školní řád, řády, formuláře a povinně zveřejňované informace.")}
+      "Školní řád, vzdělávací program, úplaty a povinně zveřejňované informace.")}
     {docs_html()}
+
+    <h3 style="margin-top:clamp(32px,3.6vw,46px)">Formuláře k vyplnění</h3>
+    <p class="small muted" style="margin-bottom:16px">
+      Vyplněné formuláře odevzdejte třídní učitelce nebo v kanceláři školy.
+      Nepřítomnost dítěte můžete nahlásit i přes aplikaci Naše MŠ.</p>
+    {docs_html(zdroj=FORMULARE)}
+
+    <div class="alert" style="margin-top:26px">
+      <span class="alert__ico">{ico("info",20)}</span>
+      <div><h3>Školní řád je platný od 1. 9. 2026</h3>
+      <p>Nové znění školního řádu (č. j. 94/26) nahrazuje předchozí verzi i její dodatek.</p></div>
+    </div>
   </div>
 </section>
 
@@ -1233,13 +1267,16 @@ def pro_rodice_page():
         {ticks([
           "termíny prázdninového provozu zveřejňujeme nejpozději v dubnu",
           "přihlášku podáváte na konkrétní náhradní mateřskou školu",
-          "úplata za prázdninový provoz se hradí zvlášť",
+          "spolu se žádostí odevzdáte kopii evidenčního listu ze své MŠ",
+          "úplatu a stravné je nutné uhradit <strong>do 20. června</strong> – bez toho "
+          "nebude dítě k docházce přijato",
           "kapacita náhradních školek je omezená – přihlaste se včas",
         ])}
       </div>
       <div class="card">
         <h3>Aktuální dokumenty</h3>
-        {docs_html(["prazdninovy-provoz-2026.xlsx","spadove-obvody-ms.pdf"])}
+        {docs_html(["prazdninovy-provoz-2026.xlsx"])}
+        {docs_html(["formular-prihlaska-prazdninovy-provoz.doc"], zdroj=FORMULARE)}
         <p class="small muted" style="margin-top:16px">Máte-li k prázdninovému provozu jakýkoli dotaz,
           ozvěte se nám na <a href="tel:{SKOLA["tel_link"]}">{SKOLA["tel"]}</a>.</p>
       </div>
@@ -1331,7 +1368,7 @@ def zapis_page():
         ])}
         <hr style="border:0;border-top:1px solid var(--line);margin:24px 0">
         <h3>Dokumenty ke stažení</h3>
-        {docs_html(["spadove-obvody-ms.pdf","skolni-rad.docx","uplata-skolne-2026-2027.pdf"])}
+        {docs_html(["skolske-obvody-ms-brno.pdf","skolni-rad-2026-2027.pdf","uplata-skolne-2026-2027.pdf"])}
       </div>
     </div>
   </div>
@@ -1593,7 +1630,7 @@ def kontakty_page():
   <div class="wrap">
     {head("Povinné informace", "Povinně zveřejňované informace")}
     {docs_html(["zrizovaci-listina.pdf","gdpr-informacni-memorandum.pdf","vyrocni-zprava-2025.doc",
-                "rozpocet-2026.docx","strednedoby-vyhled-rozpoctu-2026-2028.pdf","skolni-rad.docx"])}
+                "rozpocet-2026.docx","strednedoby-vyhled-rozpoctu-2026-2028.pdf","skolni-rad-2026-2027.pdf"])}
     <div class="grid grid-2" style="margin-top:26px">
       <div class="card card--plain"><h3>Žádosti o informace</h3>
         <p class="small muted">Žádosti podle zákona č. 106/1999 Sb., o svobodném přístupu k informacím,

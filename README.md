@@ -132,6 +132,32 @@ teal      #4E8E9B      papír         #FCFCFA
 
 ---
 
+## Dokumenty
+
+Všech 20 souborů leží v `assets/dokumenty/`, seznamy jsou v `build.py`
+(`DOKUMENTY` a `FORMULARE`). Každý soubor je někde na webu odkazovaný –
+kontrolováno skriptem, žádný nezůstal osiřelý.
+
+Aktualizace ze 6. 9. 2026 – co nahradilo co:
+
+| nový soubor | nahradil |
+|---|---|
+| `skolni-rad-2026-2027.pdf` (č. j. 94/26, účinný 1. 9. 2026) | `skolni-rad.docx` **i** `dodatek-ke-skolnimu-radu.pdf` |
+| `skolske-obvody-ms-brno.pdf` (OZV č. 27/2025) | `spadove-obvody-ms.pdf` |
+| `gdpr-informacni-memorandum.pdf` (verze 2022) | memorandum z roku 2019 |
+| `dite-do-ms-jen-kdyz-je-zdrave.pdf` (PMeduca 2026/2027) | starší vydání brožury |
+
+Nově přibylo: tři formuláře pro rodiče (nepřítomnost, ukončení docházky,
+přihláška na prázdninový provoz) a osvědčení Mrkvička s platností do 31. 12. 2026.
+
+> Dva soubory přišly s příponou `.png`, ale byly to dokumenty Wordu; jeden byl
+> starý binární `.doc`. Přípony jsou opravené podle skutečného obsahu, jinak by je
+> prohlížeč nabídl stáhnout jako obrázek.
+
+V jednosouborovém náhledu pro klienta se nové dokumenty **nedají otevřít** – míří
+na CDN starého webu, kde ještě nejsou. Jsou tam proto zašedlé s popiskou
+„v náhledu nedostupné“. Po nasazení na doménu školky budou fungovat všechny.
+
 ## Fotografie budovy
 
 `assets/img/foto/` – upravená fotka budovy školy (originál v `podklady/foto-original/`).

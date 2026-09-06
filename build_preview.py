@@ -76,7 +76,11 @@ def prelozit_odkazy(html, slug):
             return f'href="#{slug}/{h[1:]}"'
         if h.startswith("assets/dokumenty/"):
             soubor = h.split("/")[-1]
-            return f'href="{CDN}{DOKUMENTY[soubor]}?ph=7fd136a065" target="_blank" rel="noopener"'
+            if soubor in DOKUMENTY:      # leží na CDN starého webu → v náhledu funguje
+                return f'href="{CDN}{DOKUMENTY[soubor]}?ph=7fd136a065" target="_blank" rel="noopener"'
+            # nové dokumenty zatím nikde online nejsou – odkaz se v náhledu nedá otevřít
+            return ('data-bez-souboru="1" title="Soubor bude ke stažení až po nasazení '
+                    'webu na doménu školky"')
         for soubor, s in SLUG.items():
             if h == soubor:
                 return f'href="#{s}"'
@@ -208,6 +212,9 @@ def main():
 .nahled-pruh__in{display:flex;flex-wrap:wrap;gap:.3em 1.4em;align-items:center;justify-content:space-between;padding-block:.65em}
 .nahled-pruh b{color:var(--ink);font-weight:600}
 .nahled-pruh span{color:var(--muted);font-weight:400;font-family:var(--font-body);font-size:.83rem}
+.doc[data-bez-souboru]{opacity:.62;cursor:default}
+.doc[data-bez-souboru]:hover{border-color:var(--line);background:#fff;transform:none}
+.doc[data-bez-souboru] small::after{content:" · v náhledu nedostupné";color:var(--muted)}
 .map--odkaz{
   display:grid;place-items:center;text-align:center;text-decoration:none;
   background:linear-gradient(150deg,var(--blue-100),var(--mint-100));padding:36px
