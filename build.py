@@ -344,9 +344,10 @@ def vykres(cislo, nazev, popis, lazy=True):
   <figcaption>„{nazev}“<span>{popis}</span></figcaption>
 </figure>'''
 
-def vykresy_mrizka(vyber=None):
+def vykresy_mrizka(vyber=None, male=False):
     polozky = VYKRESY if vyber is None else [v for v in VYKRESY if v[0] in vyber]
-    return '<div class="vykresy">' + "".join(vykres(*v) for v in polozky) + '</div>'
+    cls = "vykresy vykresy--male" if male else "vykresy"
+    return f'<div class="{cls}">' + "".join(vykres(*v) for v in polozky) + '</div>'
 
 def vykres_pas(cislo, nazev, poznamka):
     return f'''<figure class="vykres-pas">
@@ -579,12 +580,12 @@ def index_page():
   </div>
 </section>
 
-<section class="section section--mint" style="padding-block:clamp(48px,6vw,84px)">
+<section class="section section--mint" id="vykresy" style="padding-block:clamp(38px,4.4vw,62px)">
   <div class="wrap">
     {head("Očima dětí", "Takhle naši školku vidí děti",
           "Žlutá budova, modrá okna a sluníčko nad ní. Výkresy, které vznikly ve třídách, "
           "jsou pro nás tou nejlepší vizitkou.", center=True)}
-    {vykresy_mrizka(["01","04","05","08"])}
+    {vykresy_mrizka(["01","04","05","08"], male=True)}
     <div class="center" style="margin-top:32px">
       <a class="btn btn--ghost" href="fotogalerie.html">Celá galerie výkresů {SIPKA}</a>
     </div>
@@ -709,7 +710,7 @@ def skola_page():
     </div>
     <p class="small muted" style="margin-top:30px;margin-bottom:14px">
       Jak naši školku vidí děti ze tříd:</p>
-    {vykresy_mrizka(["03","07","10"])}
+    {vykresy_mrizka(["03","07","10"], male=True)}
   </div>
 </section>
 
@@ -855,7 +856,7 @@ def vzdelavani_page():
       <div class="grid grid-3">{propojeni}</div>
     </div>
     <div style="margin-top:26px">
-      {vykresy_mrizka(["02","11","12"])}
+      {vykresy_mrizka(["02","11","12"], male=True)}
     </div>
     <div class="card" style="margin-top:26px">
       <h3>Další oblasti, které u nás mají pevné místo</h3>
@@ -958,7 +959,7 @@ def projekty_page():
           "<strong>Erasmus+</strong> – členství v konsorciu statutárního města Brna",
           "<strong>MAP Brno V</strong> – místní akční plán rozvoje vzdělávání",
         ])}</div>
-      <div>{vykresy_mrizka(["06","13"])}
+      <div>{vykresy_mrizka(["06","13"], male=True)}
         <p class="small muted" style="margin-top:14px">
           <a href="assets/dokumenty/plakat-map-brno-v.pdf">{ico("dokument",15)} Plakát MAP Brno V (PDF)</a></p>
       </div>

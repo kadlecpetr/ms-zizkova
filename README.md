@@ -275,6 +275,28 @@ Před ostrým nasazením zkontrolovat:
 
 ---
 
+## Responzivita
+
+Web byl proměřen na **24 kombinacích šířky a výšky** (320×568 až 2560×1440, včetně
+telefonů naležato) na všech devíti stránkách. Kontroluje se vodorovné přetečení
+dokumentu i jednotlivých prvků a podíl lepivé hlavičky na výšce okna.
+
+Zlomy:
+
+| šířka | chování |
+|---|---|
+| do 640 px | jeden sloupec, fotka nad textem, statistiky pod ní |
+| do 1120 px | hamburger menu, obsah v jednom až dvou sloupcích |
+| nad 1120 px | plné menu i s tlačítkem Zápis, dvou/třísloupcový obsah |
+| výška do 520 px naležato | nižší hlavička, podnavigace přestává být lepivá |
+
+Mřížky používají `minmax(min(100%, Xpx), 1fr)` – bez toho `min(100%, …)` sloupec
+přeteče, jakmile je kontejner užší než X (projevovalo se od 320 px níž).
+
+Obrázky mají v HTML atributy `width`/`height` kvůli rezervaci místa, ty se ale
+v prohlížeči mapují na CSS `height` a **přebijí `aspect-ratio`**. Proto má
+`.vykres img` explicitně `height:auto` – jinak se výkresy ořezávaly na výšku.
+
 ## Přístupnost a technika
 
 * sémantické HTML, `lang="cs"`, přeskočení na obsah, viditelný focus
