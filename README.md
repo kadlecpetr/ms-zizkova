@@ -96,6 +96,22 @@ teal      #4E8E9B      papír         #FCFCFA
 
 ---
 
+## Fotografie budovy
+
+`assets/img/foto/` – upravená fotka budovy školy (originál v `podklady/foto-original/`).
+Barevná korekce: srovnaná bílá, sytější zeleň a modrá oblohy, vytažené žluté průčelí,
+zvednuté stíny, doostřeno.
+
+| soubor | rozměr | kde se používá |
+|---|---|---|
+| `budova-hero.jpg` | 960 × 720 (4:3) | hero na úvodní straně, dlaždice ve fotogalerii |
+| `budova.jpg` | 1600 × 720 (2,2:1) | Škola → Kdo jsme, `og:image` pro sdílení odkazu |
+| `budova-nahled.jpg` | 640 × 480 | menší varianta do mřížky |
+
+> **Pozor na rozlišení:** předloha měla jen 1600 px na šířku (stažená z původního webu),
+> takže na retina displejích je fotka měkčí. Až bude focení s p. Dvořákem, vyplatí se
+> nahradit ji originálem – stačí přepsat soubory pod stejnými názvy.
+
 ## Dětské výkresy
 
 Ve složce `assets/img/vykresy/` je 14 výkresů dětí ze školky. Zpracovává je skript
@@ -154,7 +170,8 @@ Nic dalšího se měnit nemusí – podkres se propíše na všech místech naje
 
 1. **Profesionální fotografie** – místo šedých zástupných ploch (`FOTO: …`).
    Podle zadání bez identifikovatelných dětí – budova, zahrada, herny, detaily, ruce při práci.
-   Fotky nahrát do `assets/img/` a v `build.py` nahradit volání `ph("…")` značkou `<img>`.
+   Fotky nahrát do `assets/img/foto/` a v `build.py` nahradit volání `ph("…")` funkcí
+   `foto("soubor.jpg", "popis", šířka, výška)` – budova školy už je hotová takhle.
 2. **Skeny dětských výkresů** na podkres (viz výše).
 3. **Termíny zápisu 2027/2028** a aktuální kritéria – `zapis_page()` v `build.py`.
 4. **Ověření týmu** – jmenný seznam je převzatý ze starého webu, kde nebylo úplně jednoznačné

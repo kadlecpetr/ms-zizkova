@@ -247,6 +247,8 @@ def page(slug, title, description, body, active, jsonld=False):
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
 <meta property="og:locale" content="cs_CZ">
+<meta property="og:image" content="https://{SKOLA["web"]}/assets/img/foto/budova.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:site_name" content="{SKOLA["kratky"]}">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/znacka.svg">
@@ -291,6 +293,12 @@ def head(eyebrow, nadpis, perex="", center=False, level=2):
     p = f'<p class="lead">{perex}</p>' if perex else ""
     e = f'<p class="eyebrow">{eyebrow}</p>' if eyebrow else ""
     return f'<div class="section-head{c}">{e}<h{level}>{nadpis}</h{level}>{p}</div>'
+
+def foto(soubor, alt, sirka, vyska, lazy=True):
+    """Skutečná fotografie – nahrazuje zástupnou plochu ph()."""
+    l = ' loading="lazy" decoding="async"' if lazy else ""
+    return (f'<img src="assets/img/foto/{soubor}" width="{sirka}" height="{vyska}" alt="{alt}"'
+            f'{l} style="width:100%;height:100%;object-fit:cover;display:block">')
 
 def ph(popis, aspect=None):
     st = f' style="aspect-ratio:{aspect}"' if aspect else ""
@@ -439,7 +447,8 @@ def index_page():
     </a>
   </div>
   <div class="hero__media">
-    <div class="hero__photo">{ph("Foto: budova školy a zahrada")}</div>
+    <div class="hero__photo">{foto("budova-hero.jpg",
+      "Budova mateřské školy Žižkova – vstup s balkonem", 960, 720, lazy=False)}</div>
     <div class="hero__badge">
       <div><b>{SKOLA["tridy"]}</b><span>třídy</span></div>
       <div><b>{SKOLA["kapacita"]}</b><span>dětí</span></div>
@@ -660,7 +669,8 @@ def skola_page():
           <span class="tag tag--green">Rozlehlá zahrada</span>
         </div>
       </div>
-      <div>{ph("Foto: budova mateřské školy", "4/3.4")}</div>
+      <div style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-md);aspect-ratio:16/10">
+        {foto("budova.jpg", "Budova mateřské školy Žižkova a přilehlá zahrada", 1600, 720)}</div>
     </div>
   </div>
 </section>
@@ -1378,12 +1388,13 @@ def aktuality_page():
 # ═════════════════════════════════════════════════════════════
 #  FOTOGALERIE
 # ═════════════════════════════════════════════════════════════
-GALERIE = ["Budova mateřské školy", "Vstup a šatna", "Herna Zajíčků", "Herna Ježečků", "Herna Veverek",
+GALERIE = ["Vstup a šatna", "Herna Zajíčků", "Herna Ježečků", "Herna Veverek",
            "Školní zahrada", "Pískoviště a herní prvky", "Bylinkové záhonky", "Keramická dílna",
            "Technická dílna a ponk", "Detail – dětské ruce při tvoření", "Certifikáty a projekty"]
 
 def fotogalerie_page():
-    obr = "".join(f'<figure>{ph(t)}</figure>' for t in GALERIE)
+    obr = ('<figure>' + foto("budova-nahled.jpg", "Budova mateřské školy Žižkova", 640, 480) + '</figure>'
+           + "".join(f'<figure>{ph(t)}</figure>' for t in GALERIE))
     body = pagehead("Fotogalerie",
         "Nejdřív to nejcennější – jak naši školku nakreslily samy děti. Pod výkresy najdete "
         "fotografie budovy, tříd a zahrady. Fotografie dětí na webu záměrně nezveřejňujeme.",
