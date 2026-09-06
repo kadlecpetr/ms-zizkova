@@ -227,8 +227,11 @@ Nic dalšího se měnit nemusí – podkres se propíše na všech místech naje
    `foto("soubor.jpg", "popis", šířka, výška)` – budova školy už je hotová takhle.
 2. **Skeny dětských výkresů** na podkres (viz výše).
 3. **Termíny zápisu 2027/2028** a aktuální kritéria – `zapis_page()` v `build.py`.
-4. **Ověření týmu** – jmenný seznam je převzatý ze starého webu, kde nebylo úplně jednoznačné
-   přiřazení k třídám. Prosím zkontrolovat seznam `TYM` v `build.py`.
+4. **Ověření týmu** – jmenný seznam je 1 : 1 převzatý ze stránky *Zaměstnanci* na starém webu
+   (ověřeno 6. 9. 2026). Jediné úpravy: „asistent pedagoga“ → „asistentka pedagoga“ a
+   „vedoucí školní jídelny“ → „vedoucí stravovacího provozu“ (přejmenování si vyžádala
+   klientka v dokumentu). Přesto se hodí, aby školka seznam potvrdila – na starém webu
+   nemusí být aktuální. Seznam je `TYM` v `build.py`.
 5. **Režim dne** – vložený rozvrh je obvyklý rámec pro MŠ, ne oficiální dokument školy.
    Potřebuje potvrdit / upravit (`REZIM` v `build.py`).
 6. **Jídelníček** – `assets/dokumenty/jidelnicek-aktualni.pdf`. Při týdenní aktualizaci se jen

@@ -614,10 +614,11 @@ TYM = [
     ("Olga Janková", "učitelka"),
     ("Lea Křivánková", "učitelka"),
     ("Veronika Struhařová", "asistentka pedagoga"),
+    ("Mariia Oros", "provozní pracovnice"),
     ("Zuzana Illnerová", "provozní pracovnice")]),
  ("#4E8E9B", "Třída C – Veverky", [
-    ("Mgr. Dagmara Hanáková", "ředitelka školy, učitelka"),
     ("Hana Machatková", "učitelka"),
+    ("Mgr. Dagmara Hanáková", "ředitelka"),
     ("Eliška Řeháčková", "asistentka pedagoga"),
     ("Mariia Oros", "provozní pracovnice")]),
 ]
