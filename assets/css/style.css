@@ -157,7 +157,7 @@ p:last-child{margin-bottom:0}
 }
 .header__in{display:flex;align-items:center;gap:24px;min-height:76px}
 .logo{display:flex;align-items:center;flex:none}
-.logo img{height:44px;width:auto}
+.logo img{height:48px;width:auto}
 .logo:hover{text-decoration:none}
 
 .nav{margin-left:auto;display:flex;align-items:center;gap:2px}

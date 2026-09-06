@@ -70,8 +70,18 @@ soubory. Pak se ale hlavička/patička musí měnit na osmi místech.
 ## Logo
 
 Podle připomínky, že současné logo je příliš vysoké a nepůsobí moderně, vznikla nová
-**nízká vodorovná verze**: čtvercová značka (domeček se zahradou v přechodu modrá → eukalypt)
-+ wordmark v písmu Outfit. Poměr stran 4:1, takže se vejde do úzké hlavičky webu.
+**nízká vodorovná verze**. Značka je **písmeno „O“ z původního nápisu MŠ ŽIŽKOVA** –
+to, ve kterém sedí zajíček, veverka a ježeček, tedy tři třídy školky. Vyříznuté,
+zvektorizované a přebarvené do přechodu modrá → eukalypt; vedle něj wordmark v písmu Outfit.
+Poměr stran zhruba 3,7:1, takže se vejde do úzké hlavičky webu.
+
+Celou rodinu log sestaví skript – po změně stačí spustit:
+
+```bash
+python3 podklady/udelej_logo.py     # potřebuje: brew install imagemagick potrace
+```
+
+Vyřízne O z `podklady/logo-puvodni-1000.png`, převede na vektor a poskládá všechny verze.
 
 | Soubor | Použití |
 |---|---|
