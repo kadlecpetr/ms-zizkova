@@ -56,6 +56,17 @@ def data_uri(cesta, mime="image/svg+xml"):
     with open(os.path.join(ROOT, cesta), "rb") as f:
         return f"data:{mime};base64," + base64.b64encode(f.read()).decode()
 
+def inline_obrazky(html):
+    """Nahradí src="assets/img/..." data-URI, aby náhled fungoval bez souborů okolo."""
+    def obr(m):
+        cesta = m.group(1)
+        mime = "image/jpeg" if cesta.lower().endswith((".jpg", ".jpeg")) else "image/svg+xml"
+        try:
+            return f'src="{data_uri(cesta, mime)}"'
+        except FileNotFoundError:
+            return m.group(0)
+    return re.sub(r'src="(assets/img/[^"]+)"', obr, html)
+
 def prelozit_odkazy(html, slug):
     """href na stránky → hash router, href na dokumenty → CDN."""
     def odkaz(m):
@@ -98,6 +109,7 @@ def main():
         telo = re.search(r'<main id="obsah">(.*?)</main>', s, re.S).group(1)
         slug = SLUG[soubor]
         telo = prelozit_odkazy(telo, slug)
+        telo = inline_obrazky(telo)
         # OSM iframe nelze v náhledu vložit → nahradí ho odkaz na mapu
         telo = re.sub(
             r'<div class="map">.*?</div>',

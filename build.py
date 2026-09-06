@@ -306,6 +306,48 @@ def cta(nadpis, text, tlacitko, href):
   <div><a class="btn" href="{href}">{tlacitko} {SIPKA}</a></div>
 </div></div></section>'''
 
+
+# ─────────────────────────────────────────────────────────────
+#  DĚTSKÉ VÝKRESY
+#  Fotky výkresů zpracovává podklady/uprav_vykresy.py.
+#  Popisky doplní školka – jména dětí jsou vidět přímo v kresbách.
+# ─────────────────────────────────────────────────────────────
+VYKRESY = [
+ ("01", "Naše školka", "kresba pastelkou"),
+ ("02", "Naše školka",  "kresba pastelkou"),
+ ("03", "Naše školka",  "kresba pastelkou"),
+ ("04", "Naše školka",  "kresba pastelkou"),
+ ("05", "Naše děti",    "společná kresba třídy"),
+ ("06", "Naše školka",  "kresba pastelkou"),
+ ("07", "Naše školka",  "kresba pastelkou"),
+ ("08", "Naše školka",  "kresba pastelkou"),
+ ("09", "Naše školka",  "kresba pastelkou"),
+ ("10", "Naše školka",  "kresba pastelkou"),
+ ("11", "Naše školka",  "kresba pastelkou"),
+ ("12", "Naše školka",  "kresba pastelkou"),
+ ("13", "Naše školka",  "kresba pastelkou"),
+ ("14", "Naše školka",  "kresba pastelkou"),
+]
+
+def vykres(cislo, nazev, popis, lazy=True):
+    l = ' loading="lazy" decoding="async"' if lazy else ""
+    return f'''<figure class="vykres">
+  <img src="assets/img/vykresy/vykres-{cislo}-nahled.jpg" width="640" height="480"
+       alt="Dětská kresba – {nazev}"{l}>
+  <figcaption>„{nazev}“<span>{popis}</span></figcaption>
+</figure>'''
+
+def vykresy_mrizka(vyber=None):
+    polozky = VYKRESY if vyber is None else [v for v in VYKRESY if v[0] in vyber]
+    return '<div class="vykresy">' + "".join(vykres(*v) for v in polozky) + '</div>'
+
+def vykres_pas(cislo, nazev, poznamka):
+    return f'''<figure class="vykres-pas">
+  <img src="assets/img/vykresy/vykres-{cislo}.jpg" width="1400" height="613"
+       alt="Dětská kresba – {nazev}" loading="lazy" decoding="async">
+  <figcaption><span>„{nazev}“ – kresba dětí z naší školky</span><span>{poznamka}</span></figcaption>
+</figure>'''
+
 # ═════════════════════════════════════════════════════════════
 #  OBSAH – ÚVODNÍ STRÁNKA
 # ═════════════════════════════════════════════════════════════
@@ -529,6 +571,18 @@ def index_page():
   </div>
 </section>
 
+<section class="section section--mint" style="padding-block:clamp(48px,6vw,84px)">
+  <div class="wrap">
+    {head("Očima dětí", "Takhle naši školku vidí děti",
+          "Žlutá budova, modrá okna a sluníčko nad ní. Výkresy, které vznikly ve třídách, "
+          "jsou pro nás tou nejlepší vizitkou.", center=True)}
+    {vykresy_mrizka(["01","04","05","08"])}
+    <div class="center" style="margin-top:32px">
+      <a class="btn btn--ghost" href="fotogalerie.html">Celá galerie výkresů {SIPKA}</a>
+    </div>
+  </div>
+</section>
+
 {cta("Přijďte se k nám podívat",
      "Zápis do mateřské školy probíhá každý rok na jaře. Najdete u nás termíny, kritéria i seznam dokumentů – a rádi vám odpovíme na cokoli dalšího.",
      "Vše o zápisu", "zapis.html")}
@@ -664,6 +718,9 @@ def skola_page():
     {head("Náš tým", "Lidé, kteří tu pro děti jsou",
       "Stabilní tým je základní pilíř bezpečí. Děti u nás vítají známé tváře, které je podporují, motivují a provázejí jejich růstem.")}
     <div class="team">{tym}</div>
+    <div style="margin-top:clamp(22px,2.6vw,34px)">
+      {vykres_pas("05", "Naše děti", "Třída si nakreslila sama sebe – i se jmény.")}
+    </div>
     <div class="grid grid-2" style="margin-top:16px">
       <div class="card"><div class="card__icon">{ico("srdce")}</div>
         <h3>Školní asistentka</h3>
@@ -774,6 +831,9 @@ def vzdelavani_page():
     <div style="margin-top:clamp(34px,4vw,54px)">
       {head("Unikátní koncept", "Propojení polytechniky, ekologie a umění", center=True)}
       <div class="grid grid-3">{propojeni}</div>
+    </div>
+    <div style="margin-top:26px">
+      {vykresy_mrizka(["02","11","14"])}
     </div>
     <div class="card" style="margin-top:26px">
       <h3>Další oblasti, které u nás mají pevné místo</h3>
@@ -1325,12 +1385,21 @@ GALERIE = ["Budova mateřské školy", "Vstup a šatna", "Herna Zajíčků", "He
 def fotogalerie_page():
     obr = "".join(f'<figure>{ph(t)}</figure>' for t in GALERIE)
     body = pagehead("Fotogalerie",
-        "Reprezentativní fotografie budovy, tříd a zahrady. Fotografie dětí na webu záměrně nezveřejňujeme – "
-        "ukazujeme prostředí, detaily a ruce při práci.",
+        "Nejdřív to nejcennější – jak naši školku nakreslily samy děti. Pod výkresy najdete "
+        "fotografie budovy, tříd a zahrady. Fotografie dětí na webu záměrně nezveřejňujeme.",
         [("Domů","index.html"),("Fotogalerie",None)]) + f'''
 <section class="section">
   <div class="wrap">
-    {head("Naše školka", "Budova, třídy a zahrada")}
+    {head("Očima dětí", "Naše školka na dětských výkresech",
+          "Kresby vznikly ve třídách Zajíčků, Ježečků a Veverek. Skoro každé dítě si vybralo "
+          "stejný motiv – žlutou budovu se spoustou oken.")}
+    {vykresy_mrizka()}
+  </div>
+</section>
+
+<section class="section section--blue">
+  <div class="wrap">
+    {head("Fotografie", "Budova, třídy a zahrada")}
     <div class="gallery">{obr}</div>
   </div>
 </section>

@@ -96,14 +96,47 @@ teal      #4E8E9B      papír         #FCFCFA
 
 ---
 
+## Dětské výkresy
+
+Ve složce `assets/img/vykresy/` je 14 výkresů dětí ze školky. Zpracovává je skript
+`podklady/uprav_vykresy.py` z fotek v `podklady/vykresy-original/`:
+
+```bash
+python3 podklady/uprav_vykresy.py
+```
+
+Co skript dělá: otočí fotku do správné orientace, **rozpozná dřevěný stůl kolem papíru
+a odřízne ho** (podle toho, že je teplý a zároveň tmavší než papír, takže se nesplete
+se žlutou pastelkou), srovná bílou, zvýrazní barvy pastelek a doostří. Z každého výkresu
+uloží webovou velikost (1400 px) a náhled (640 px).
+
+Nové výkresy stačí nahrát do `podklady/vykresy-original/`, spustit skript a přidat řádek
+do seznamu `VYKRESY` v `build.py`.
+
+Kde jsou na webu: úvodní strana (čtyři kusy), Fotogalerie (všech 14), Vzdělávání
+(u zaměření školy) a Škola → Náš tým (společná kresba „Naše děti“).
+
+> **K rozhodnutí pro školku:** v kresbách jsou vidět křestní jména dětí (ISABELLA, JOHANA,
+> MEDA…). Vzhledem k tomu, že fotky dětí na web záměrně nedáváme, je na místě potvrdit,
+> že jména přímo v kresbách jsou v pořádku.
+
 ## Grafický podkres
 
 `assets/img/podkres.svg` je bezešvá dlaždice 520 × 520 px s jemnou mozaikou dětských kreseb
 (sluníčko, domeček, kytka, loďka, notička, ozubené kolo, lupa, list…) v barvách palety.
 Používá se v hero sekci, na hlavičkách podstránek a ve vybraných sekcích.
 
-**Až dorazí skeny skutečných dětských výkresů**, stačí připravit z nich jednu dlaždici
-(ideálně čtverec, světlá, hodně vzdušná) a v `assets/css/style.css` přepsat jediný řádek:
+K dispozici jsou **dvě varianty** a přepínají se jedním blokem v `assets/css/style.css`:
+
+| varianta | soubor | jak působí |
+|---|---|---|
+| **1 – linkové kresbičky** (výchozí) | `podkres.svg` | čistší, bezešvá, funguje v každé velikosti |
+| **2 – mozaika dětských výkresů** | `podkres-vykresy.jpg` | přesně podle zadání klientky, autentičtější, o něco živější |
+
+Ve `style.css` je varianta 2 připravená jako zakomentované tři řádky hned pod výchozím
+nastavením – stačí je odkomentovat.
+
+Obecně platí, že podkres se řídí třemi proměnnými:
 
 ```css
 :root{
