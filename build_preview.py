@@ -18,6 +18,7 @@ STRANKY = [
     ("index.html",       "Domů"),
     ("skola.html",       "Škola"),
     ("vzdelavani.html",  "Vzdělávání"),
+    ("projekty.html",    "Projekty a spolupráce"),
     ("pro-rodice.html",  "Pro rodiče"),
     ("zapis.html",       "Zápis do MŠ"),
     ("aktuality.html",   "Aktuality"),

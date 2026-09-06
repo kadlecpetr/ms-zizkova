@@ -91,6 +91,7 @@ NAV = [
  ("Domů", "index.html", []),
  ("Škola", "skola.html", [
     ("Kdo jsme", "skola.html#kdo-jsme"),
+    ("Aplikace Naše MŠ", "skola.html#nase-ms"),
     ("Vybavení školy", "skola.html#vybaveni"),
     ("Školní zahrada", "skola.html#zahrada"),
     ("Náš tým", "skola.html#tym"),
@@ -102,17 +103,15 @@ NAV = [
     ("Zaměření školy", "vzdelavani.html#zamereni"),
     ("Jak učíme", "vzdelavani.html#jak-ucime"),
     ("Předškolní příprava", "vzdelavani.html#predskolaci"),
-    ("Projekty a spolupráce", "vzdelavani.html#projekty"),
+    ("Projekty a spolupráce", "projekty.html"),
  ]),
  ("Pro rodiče", "pro-rodice.html", [
     ("Informace pro nové rodiče", "pro-rodice.html#novi-rodice"),
-    ("Adaptace", "pro-rodice.html#adaptace"),
-    ("Aplikace Naše MŠ", "pro-rodice.html#nase-ms"),
     ("Dokumenty ke stažení", "pro-rodice.html#dokumenty"),
     ("Stravování", "pro-rodice.html#stravovani"),
-    ("Nadstandardní aktivity", "pro-rodice.html#aktivity"),
-    ("Platby – školné a stravné", "pro-rodice.html#platby"),
+    ("Zápis do MŠ", "zapis.html"),
     ("Provoz o prázdninách", "pro-rodice.html#prazdniny"),
+    ("Nadstandardní aktivity", "pro-rodice.html#aktivity"),
  ]),
  ("Aktuality", "aktuality.html", [
     ("Důležité informace", "aktuality.html#dulezite"),
@@ -570,7 +569,7 @@ def index_page():
       <a class="card card--plain card--green" href="pro-rodice.html#stravovani" style="text-decoration:none">
         <div class="card__icon">{ico("jidlo")}</div><h3>Stravování a jídelníček</h3>
         <p class="small muted">Vlastní kuchyně, čerstvé suroviny a celodenní pitný režim.</p></a>
-      <a class="card card--plain card--teal" href="pro-rodice.html#nase-ms" style="text-decoration:none">
+      <a class="card card--plain card--teal" href="skola.html#nase-ms" style="text-decoration:none">
         <div class="card__icon">{ico("mobil")}</div><h3>Aplikace Naše MŠ</h3>
         <p class="small muted">Omluvenky, platby, přihlašování na akce a zprávy ze tříd na jednom místě.</p></a>
       <a class="card card--plain" href="pro-rodice.html#dokumenty" style="text-decoration:none">
@@ -671,6 +670,21 @@ def skola_page():
       </div>
       <div style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-md);aspect-ratio:16/10">
         {foto("budova.jpg", "Budova mateřské školy Žižkova a přilehlá zahrada", 1600, 720)}</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" id="nase-ms">
+  <div class="wrap">
+    <div class="cta" style="background:linear-gradient(140deg,var(--euca-700),var(--euca-600) 60%,var(--teal-600))">
+      <div>
+        <p class="eyebrow" style="color:rgba(255,255,255,.85)">Aplikace Naše MŠ</p>
+        <h2>Komunikace se školkou na jednom místě</h2>
+        <p>Přes aplikaci <strong>Naše MŠ</strong> omlouváte děti, sledujete platby, přihlašujete se na akce
+          a nadstandardní aktivity a dostáváte zprávy z třídy i z vedení školy. Doporučujeme mít ji nainstalovanou
+          po celou dobu docházky dítěte – většinu agendy díky ní vyřídíte z mobilu během chvilky.</p>
+      </div>
+      <div><a class="btn" href="kontakty.html">{ico("info",16)} Potřebuji pomoct s přihlášením</a></div>
     </div>
   </div>
 </section>
@@ -793,14 +807,13 @@ ORGANIZACE = ["ZŠ Sirotkova", "ZUŠ Veveří", "FAST VUT", "Lipka", "Rozmarýne
 def vzdelavani_page():
     propojeni = "".join(f'''<article class="card"><div class="card__icon">{ico(i)}</div>
       <h3>{t}</h3><p class="small muted">{p}</p></article>''' for i, t, p in PROPOJENI)
-    organizace = "".join(f'<span class="tag">{o}</span>' for o in ORGANIZACE)
 
     body = pagehead("Vzdělávání",
         "Učíme podle školního vzdělávacího programu „Radostně objevujeme svět“. Techniku, přírodu a hudbu "
         "propojujeme do jednoho celku – tak, aby děti chápaly svět v jeho přirozených souvislostech.",
         [("Domů","index.html"),("Vzdělávání",None)]) + subnav([
         ("Školní vzdělávací program","svp"),("Zaměření školy","zamereni"),("Jak učíme","jak-ucime"),
-        ("Předškolní příprava","predskolaci"),("Projekty a spolupráce","projekty")]) + f'''
+        ("Předškolní příprava","predskolaci")]) + f'''
 
 <section class="section" id="svp">
   <div class="wrap">
@@ -908,12 +921,34 @@ def vzdelavani_page():
   </div>
 </section>
 
-<section class="section" id="projekty">
+{cta("Nejsme na to sami",
+     "Dlouhodobé projekty, spolupráce s odborníky a s organizacemi v Žabovřeskách i v celém Brně – "
+     "díky nim děti zažijí techniku, přírodu a umění v reálném světě.",
+     "Projekty a spolupráce", "projekty.html")}
+'''
+    return page("vzdelavani.html", f'Vzdělávání – {SKOLA["kratky"]}',
+        "Školní vzdělávací program „Radostně objevujeme svět“, zaměření na polytechniku, ekologii a hudbu, "
+        "předškolní příprava a projekty MŠ Žižkova v Brně.",
+        body, "vzdelavani.html")
+
+
+# ═════════════════════════════════════════════════════════════
+#  PROJEKTY A SPOLUPRÁCE  (sekce 4 dle návrhu struktury)
+# ═════════════════════════════════════════════════════════════
+def projekty_page():
+    organizace = "".join(f'<span class="tag">{o}</span>' for o in ORGANIZACE)
+    body = pagehead("Projekty a spolupráce",
+        "Dlouhodobé projekty, spolupráce s odborníky a s organizacemi v Žabovřeskách i v celém Brně. "
+        "Díky nim děti zažijí techniku, přírodu a umění v reálném světě.",
+        [("Domů","index.html"),("Vzdělávání","vzdelavani.html"),("Projekty a spolupráce",None)]) + subnav([
+        ("Dlouhodobé projekty","dlouhodobe"),("Spolupráce s odborníky","odbornici"),
+        ("Spolupráce s organizacemi","organizace")]) + f'''
+<section class="section" id="dlouhodobe">
   <div class="wrap">
-    {head("Projekty a spolupráce", "Nejsme na to sami")}
-    <div class="grid grid-3">
-      <article class="card card--green"><div class="card__icon">{ico("list")}</div>
-        <h3>Dlouhodobé projekty</h3>
+    {head("Dlouhodobé projekty", "Projekty, které nás provázejí celý rok")}
+    <div class="grid grid-2" style="align-items:start">
+      <div class="card card--green"><div class="card__icon">{ico("list")}</div>
+        <h3>Zapojení školy</h3>
         {ticks([
           "<strong>Mrkvička</strong> – síť jihomoravských škol se zájmem o ekologickou výchovu",
           "<strong>Recyklohraní aneb Ukliďme si svět</strong> – sběr vysloužilých baterií",
@@ -921,30 +956,51 @@ def vzdelavani_page():
           "<strong>Celé Česko čte dětem</strong> – čtenářská pregramotnost a „čtecí babičky“",
           "<strong>Erasmus+</strong> – členství v konsorciu statutárního města Brna",
           "<strong>MAP Brno V</strong> – místní akční plán rozvoje vzdělávání",
-        ])}</article>
-      <article class="card"><div class="card__icon">{ico("stit")}</div>
-        <h3>Spolupráce s odborníky</h3>
-        {ticks([
-          "vyšetření fyzioterapeutem – správné držení těla a pohybový vývoj",
-          "screening zraku ve spolupráci s PrimaVizus",
-          "dentální hygiena se studenty zubního lékařství LF MU",
-          "speciální pedagogové a výchovní poradci",
-        ], blue=True)}</article>
-      <article class="card card--teal"><div class="card__icon">{ico("lide")}</div>
-        <h3>Spolupráce s organizacemi</h3>
-        <p class="small muted">Děti díky partnerům zažijí techniku, přírodu i umění v reálném světě.</p>
-        <div class="tagrow" style="margin-top:14px">{organizace}</div></article>
+        ])}</div>
+      <div>{vykresy_mrizka(["06","13"])}
+        <p class="small muted" style="margin-top:14px">
+          <a href="assets/dokumenty/plakat-map-brno-v.pdf">{ico("dokument",15)} Plakát MAP Brno V (PDF)</a></p>
+      </div>
     </div>
   </div>
 </section>
+
+<section class="section section--blue" id="odbornici">
+  <div class="wrap">
+    {head("Spolupráce s odborníky", "Odborná péče nad rámec běžného dne")}
+    <div class="grid grid-4">
+      <article class="card"><div class="card__icon">{ico("stit")}</div>
+        <h3>Fyzioterapeut</h3>
+        <p class="small muted">Vyšetření dětí zaměřené na správné držení těla a pohybový vývoj.</p></article>
+      <article class="card"><div class="card__icon">{ico("lupa")}</div>
+        <h3>Screening zraku</h3>
+        <p class="small muted">Vyšetření zraku ve spolupráci se zdravotnickým zařízením PrimaVizus.</p></article>
+      <article class="card"><div class="card__icon">{ico("srdce")}</div>
+        <h3>Dentální hygiena</h3>
+        <p class="small muted">Studenti zubního lékařství LF MU seznamují děti s pravidly dentální hygieny.</p></article>
+      <article class="card"><div class="card__icon">{ico("lide")}</div>
+        <h3>Speciální pedagogové</h3>
+        <p class="small muted">Spolupráce se speciálními pedagogy a výchovnými poradci podle potřeb dětí.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="organizace">
+  <div class="wrap">
+    {head("Spolupráce s organizacemi", "S kým se ve školním roce potkáváme",
+      "Děti díky partnerům zažijí techniku, přírodu i umění v reálném světě.")}
+    <div class="tagrow">{organizace}</div>
+  </div>
+</section>
+
 
 {cta("Zajímá vás, jak u nás vypadá běžný den?",
      "Podívejte se na režim dne, vybavení školky a zahradu, kde děti tráví většinu dopoledne.",
      "Prohlédnout školku", "skola.html")}
 '''
-    return page("vzdelavani.html", f'Vzdělávání – {SKOLA["kratky"]}',
-        "Školní vzdělávací program „Radostně objevujeme svět“, zaměření na polytechniku, ekologii a hudbu, "
-        "předškolní příprava a projekty MŠ Žižkova v Brně.",
+    return page("projekty.html", f'Projekty a spolupráce – {SKOLA["kratky"]}',
+        "Dlouhodobé projekty MŠ Žižkova (Mrkvička, Recyklohraní, Se Sokolem do života, Celé Česko čte dětem), "
+        "spolupráce s odborníky a s organizacemi v Brně.",
         body, "vzdelavani.html")
 
 # ═════════════════════════════════════════════════════════════
@@ -980,9 +1036,9 @@ def pro_rodice_page():
         "Vše podstatné na jednom místě – co dítě do školky potřebuje, jak probíhá adaptace, "
         "dokumenty ke stažení, stravování, platby i prázdninový provoz.",
         [("Domů","index.html"),("Pro rodiče",None)]) + subnav([
-        ("Noví rodiče","novi-rodice"),("Adaptace","adaptace"),("Aplikace Naše MŠ","nase-ms"),
-        ("Dokumenty","dokumenty"),("Stravování","stravovani"),("Nadstandardní aktivity","aktivity"),
-        ("Platby","platby"),("Prázdniny","prazdniny")]) + f'''
+        ("Informace pro nové rodiče","novi-rodice"),("Dokumenty ke stažení","dokumenty"),
+        ("Stravování","stravovani"),("Zápis do MŠ","zapis"),
+        ("Provoz o prázdninách","prazdniny"),("Nadstandardní aktivity","aktivity")]) + f'''
 
 <section class="section" id="novi-rodice">
   <div class="wrap">
@@ -1055,26 +1111,29 @@ def pro_rodice_page():
   </div>
 </section>
 
-<section class="section" id="nase-ms">
-  <div class="wrap">
-    <div class="cta" style="background:linear-gradient(140deg,var(--euca-700),var(--euca-600) 60%,var(--teal-600))">
-      <div>
-        <p class="eyebrow" style="color:rgba(255,255,255,.85)">Aplikace Naše MŠ</p>
-        <h2>Komunikace se školkou na jednom místě</h2>
-        <p>Přes aplikaci <strong>Naše MŠ</strong> omlouváte děti, sledujete platby, přihlašujete se na akce
-          a nadstandardní aktivity a dostáváte zprávy z třídy i z vedení školy. Doporučujeme mít ji nainstalovanou
-          po celou dobu docházky dítěte – většinu agendy díky ní vyřídíte z mobilu během chvilky.</p>
-      </div>
-      <div><a class="btn" href="kontakty.html">{ico("info",16)} Potřebuji pomoct s přihlášením</a></div>
-    </div>
-  </div>
-</section>
-
 <section class="section section--blue" id="dokumenty">
   <div class="wrap">
     {head("Dokumenty", "Dokumenty ke stažení",
       "Školní vzdělávací program, školní řád, řády, formuláře a povinně zveřejňované informace.")}
     {docs_html()}
+  </div>
+</section>
+
+<section class="section" id="platby">
+  <div class="wrap">
+    {head("Platby", "Školné a stravné")}
+    <div class="grid grid-2">
+      <div class="card"><div class="card__icon">{ico("dokument")}</div>
+        <h3>Úplata za předškolní vzdělávání</h3>
+        <p>Výši školného pro školní rok 2026/2027 stanovuje ředitelka školy. Aktuální částku a splatnost
+          najdete v dokumentu níže a v aplikaci Naše MŠ.</p>
+        {docs_html(["uplata-skolne-2026-2027.pdf","potvrzeni-o-zaplaceni-skolneho.doc"])}</div>
+      <div class="card card--green"><div class="card__icon">{ico("jidlo")}</div>
+        <h3>Úplata za stravování</h3>
+        <p>Stravné se hradí podle věkové kategorie dítěte a rozsahu odebrané stravy. Podrobnosti najdete
+          v řádu školní jídelny.</p>
+        {docs_html(["uplata-stravne-2026-2027.docx","rad-skolni-jidelny-2026-2027.docx"])}</div>
+    </div>
   </div>
 </section>
 
@@ -1118,43 +1177,17 @@ def pro_rodice_page():
   </div>
 </section>
 
-<section class="section section--mint" id="aktivity">
+<section class="section" id="zapis">
   <div class="wrap">
-    {head("Nadstandardní aktivity", "Kroužky nad rámec běžného dne",
-      "Nadstandardní aktivity probíhají v průběhu školního roku. Přihlašování řešíme přes aplikaci Naše MŠ.")}
-    <div class="grid grid-3">
-      <article class="card"><div class="card__icon">{ico("voda")}</div>
-        <h3>Plavání</h3>
-        <p>Pravidelný plavecký kurz pro starší děti pod vedením zkušených instruktorů.</p></article>
-      <article class="card card--green"><div class="card__icon">{ico("kostky")}</div>
-        <h3>Keramika</h3>
-        <p>Práce s keramickou hlínou navazuje na dlouholeté výtvarné zaměření naší školky.</p></article>
-      <article class="card card--teal"><div class="card__icon">{ico("zprava")}</div>
-        <h3>Logopedická péče</h3>
-        <p>Podpora správné výslovnosti a rozvoje řeči ve spolupráci s odborníky.</p></article>
-    </div>
-    <div class="alert alert--green" style="margin-top:24px">
-      <span class="alert__ico">{ico("mobil",20)}</span>
-      <div><h3>Přihlašování přes aplikaci Naše MŠ</h3>
-      <p>Aktuální nabídku aktivit, termíny i ceny najdete vždy v aplikaci. Tam se také závazně přihlásíte.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="platby">
-  <div class="wrap">
-    {head("Platby", "Školné a stravné")}
-    <div class="grid grid-2">
-      <div class="card"><div class="card__icon">{ico("dokument")}</div>
-        <h3>Úplata za předškolní vzdělávání</h3>
-        <p>Výši školného pro školní rok 2026/2027 stanovuje ředitelka školy. Aktuální částku a splatnost
-          najdete v dokumentu níže a v aplikaci Naše MŠ.</p>
-        {docs_html(["uplata-skolne-2026-2027.pdf","potvrzeni-o-zaplaceni-skolneho.doc"])}</div>
-      <div class="card card--green"><div class="card__icon">{ico("jidlo")}</div>
-        <h3>Úplata za stravování</h3>
-        <p>Stravné se hradí podle věkové kategorie dítěte a rozsahu odebrané stravy. Podrobnosti najdete
-          v řádu školní jídelny.</p>
-        {docs_html(["uplata-stravne-2026-2027.docx","rad-skolni-jidelny-2026-2027.docx"])}</div>
+    {head("Zápis do MŠ", "Zápis do mateřské školy")}
+    <div class="cta">
+      <div>
+        <h2 style="font-size:clamp(1.4rem,1.1rem + 1.1vw,1.9rem)">Termíny, kritéria a postup krok za krokem</h2>
+        <p>Zápis probíhá každoročně na jaře, elektronicky přes portál zápisů města Brna.
+          Na samostatné stránce najdete postup, seznam potřebných dokumentů i odpovědi
+          na nejčastější dotazy rodičů.</p>
+      </div>
+      <div><a class="btn" href="zapis.html">{ico("zapis",16)} Vše o zápisu {SIPKA}</a></div>
     </div>
   </div>
 </section>
@@ -1181,6 +1214,29 @@ def pro_rodice_page():
         <p class="small muted" style="margin-top:16px">Máte-li k prázdninovému provozu jakýkoli dotaz,
           ozvěte se nám na <a href="tel:{SKOLA["tel_link"]}">{SKOLA["tel"]}</a>.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--mint" id="aktivity">
+  <div class="wrap">
+    {head("Nadstandardní aktivity", "Kroužky nad rámec běžného dne",
+      "Nadstandardní aktivity probíhají v průběhu školního roku. Přihlašování řešíme přes aplikaci Naše MŠ.")}
+    <div class="grid grid-3">
+      <article class="card"><div class="card__icon">{ico("voda")}</div>
+        <h3>Plavání</h3>
+        <p>Pravidelný plavecký kurz pro starší děti pod vedením zkušených instruktorů.</p></article>
+      <article class="card card--green"><div class="card__icon">{ico("kostky")}</div>
+        <h3>Keramika</h3>
+        <p>Práce s keramickou hlínou navazuje na dlouholeté výtvarné zaměření naší školky.</p></article>
+      <article class="card card--teal"><div class="card__icon">{ico("zprava")}</div>
+        <h3>Logopedická péče</h3>
+        <p>Podpora správné výslovnosti a rozvoje řeči ve spolupráci s odborníky.</p></article>
+    </div>
+    <div class="alert alert--green" style="margin-top:24px">
+      <span class="alert__ico">{ico("mobil",20)}</span>
+      <div><h3>Přihlašování přes aplikaci Naše MŠ</h3>
+      <p>Aktuální nabídku aktivit, termíny i ceny najdete vždy v aplikaci. Tam se také závazně přihlásíte.</p></div>
     </div>
   </div>
 </section>
@@ -1599,8 +1655,9 @@ def sitemap(stranky):
 
 def main():
     stranky = [
-        index_page(), skola_page(), vzdelavani_page(), pro_rodice_page(),
-        zapis_page(), aktuality_page(), fotogalerie_page(), kontakty_page(),
+        index_page(), skola_page(), vzdelavani_page(), projekty_page(),
+        pro_rodice_page(), zapis_page(), aktuality_page(),
+        fotogalerie_page(), kontakty_page(),
     ]
     assets()
     sitemap(stranky)

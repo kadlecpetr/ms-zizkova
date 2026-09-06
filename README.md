@@ -11,8 +11,9 @@ Nasadí se na jakýkoli hosting (FTP, Netlify, Vercel, GitHub Pages, i současn�
 |---|---|---|
 | Domů | `index.html` | představení školy, motto, filozofie, 3 rychlé odkazy, zaměření, hodnoty, aktuality |
 | Škola | `skola.html` | kdo jsme, vybavení, školní zahrada, náš tým, provoz a režim dne |
-| Vzdělávání | `vzdelavani.html` | ŠVP, zaměření (polytechnika–ekologie–umění), jak učíme, předškoláci, projekty |
-| Pro rodiče | `pro-rodice.html` | noví rodiče, adaptace, aplikace Naše MŠ, dokumenty, stravování, kroužky, platby, prázdniny |
+| Vzdělávání | `vzdelavani.html` | ŠVP, zaměření (polytechnika–ekologie–umění), jak učíme, předškolní příprava |
+| Projekty a spolupráce | `projekty.html` | dlouhodobé projekty, odborníci, organizace |
+| Pro rodiče | `pro-rodice.html` | noví rodiče a adaptace, dokumenty a platby, stravování, zápis, prázdniny, kroužky |
 | Zápis do MŠ | `zapis.html` | postup krok za krokem, kritéria, dokumenty, FAQ |
 | Aktuality | `aktuality.html` | fixní „Důležité informace“ nahoře + chronologické novinky |
 | Fotogalerie | `fotogalerie.html` | mřížka pro reprezentativní fotky |
@@ -21,6 +22,31 @@ Nasadí se na jakýkoli hosting (FTP, Netlify, Vercel, GitHub Pages, i současn�
 Hlavní menu má **6 položek** (Domů · Škola · Vzdělávání · Pro rodiče · Aktuality · Kontakty),
 **Zápis do MŠ** je vytažený jako výrazné tlačítko v hlavičce a jako první rychlý odkaz na úvodu –
 podle doporučení v zadání. Sekce „Akce“ zrušena, vše je sjednocené v Aktualitách.
+
+### Řazení sekcí
+
+Pořadí sekcí i podsekcí odpovídá dokumentu *Struktura webu – verze 2*:
+
+| dokument | kde je na webu |
+|---|---|
+| 1. Home | `index.html` |
+| 2.1–2.5 Kdo jsme · Vybavení · Zahrada · Náš tým · Provoz | `skola.html`, ve stejném pořadí |
+| 3.1–3.4 ŠVP · Zaměření · Jak učíme · Předškolní příprava | `vzdelavani.html`, ve stejném pořadí |
+| 4.1–4.3 Dlouhodobé projekty · Odborníci · Organizace | `projekty.html` – **samostatná stránka**, ne podsekce |
+| 5.1–5.6 Noví rodiče · Dokumenty · Stravování · Zápis · Prázdniny · Kroužky | `pro-rodice.html`, ve stejném pořadí |
+| 6.1–6.2 Důležité informace · Novinky a akce | `aktuality.html`, ve stejném pořadí |
+| 7. Fotogalerie | `fotogalerie.html` |
+| 8.1–8.3 Údaje · Doprava · Povinné informace | `kontakty.html` + kontakty v zápatí |
+
+Dokument uvádí u 2.1 „aplikace Naše MŠ“ – blok o aplikaci je proto na stránce Škola,
+ne u rodičů. Adaptace je odrážkou 5.1, takže navazuje hned na „Informace pro nové rodiče“.
+Platby (školné a stravné) v dokumentu nejsou samostatně, jsou proto součástí 5.2 Dokumenty.
+Zápis má vlastní stránku – to je varianta, kterou dokument sám doporučuje – a v pozici 5.4
+na něj vede odkaz, aby pořadí zůstalo zachované.
+
+Menu má strop 6 položek, takže **Projekty** a **Fotogalerie** v něm nejsou (nejsou ani
+v menu navrženém v dokumentu). Projekty vedou z rozbalovacího menu Vzdělávání a z patičky,
+Fotogalerie z menu Škola a z patičky.
 
 ---
 
