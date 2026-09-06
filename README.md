@@ -279,13 +279,27 @@ Nic dalšího se měnit nemusí – podkres se propíše na všech místech naje
    nemusí být aktuální. Seznam je `TYM` v `build.py`.
 5. **Režim dne** – vložený rozvrh je obvyklý rámec pro MŠ, ne oficiální dokument školy.
    Potřebuje potvrdit / upravit (`REZIM` v `build.py`).
-6. **Opravený plakát vize a hodnot** – s aktuálním telefonním číslem, viz sekce níže.
-7. **Jídelníček** – `assets/dokumenty/jidelnicek-aktualni.pdf`. Při týdenní aktualizaci se jen
+6. **Provozní řád** – zadání ho v sekci 5.2 vyjmenovává, ale soubor školka zatím neposlala.
+7. **Opravený plakát vize a hodnot** – s aktuálním telefonním číslem, viz sekce níže.
+8. **Jídelníček** – `assets/dokumenty/jidelnicek-aktualni.pdf`. Při týdenní aktualizaci se jen
    přepíše soubor pod stejným názvem, na webu se nic měnit nemusí.
-8. **Odkaz na aplikaci Naše MŠ** – zatím vede na kontakty; až bude k dispozici přihlašovací
+9. **Odkaz na aplikaci Naše MŠ** – zatím vede na kontakty; až bude k dispozici přihlašovací
    URL školy, doplní se.
 
 ---
+
+## Kontrola proti zadání
+
+Web byl proti dokumentům *Struktura webu v2* a *Hodnoty–vize–zaměření* projetý strojově –
+skript hledá každou odrážku ze zadání v hotovém HTML (bez diakritiky, včetně `alt` a `title`).
+Nalezené a opravené odchylky (6. 9. 2026):
+
+| co bylo špatně | oprava |
+|---|---|
+| „Hra jako hlavní nástroj učení“ | doslovné znění ze zadání: **„Spontánní hra jako hlavní nástroj učení“** |
+| šest oblastí z bodu 3.2 bylo schované v malé kartičce „Další oblasti“ | povýšeno na **rovnocenný blok „Na co se ve vzdělávání zaměřujeme“** se šesti kartami |
+| u dopravy stálo vymyšlené „nejbližší zastávky jsou několik minut“ | **skutečné zastávky** dohledané z map: Tábor 180 m, Kounicovy koleje 320 m, Spojovací 370 m, Klusáčkova 540 m; sekce se jmenuje MHD |
+| ve Fotogalerii chyběly „projekty a certifikáty“ z bodu 7 | doplněn odkaz na certifikáty a plakáty projektů |
 
 ## Poznámka k obsahu
 

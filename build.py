@@ -885,11 +885,33 @@ def vzdelavani_page():
     <div style="margin-top:26px">
       {vykresy_mrizka(["02","11","12"], male=True)}
     </div>
-    <div class="card" style="margin-top:26px">
-      <h3>Další oblasti, které u nás mají pevné místo</h3>
-      <div class="grid grid-2" style="margin-top:14px">
-        {ticks(["výtvarné a keramické tvoření","pohyb a zdravý životní styl","práce s knihou a čtenářská pregramotnost"], blue=True)}
-        {ticks(["lidové tradice a práce s přírodními materiály","estetika školního prostředí","divadelní a hudební představení"], blue=True)}
+    <div style="margin-top:clamp(34px,4vw,54px)">
+      {head("Šest oblastí", "Na co se ve vzdělávání zaměřujeme", center=True)}
+      <div class="grid grid-3">
+        <article class="card"><div class="card__icon">{ico("jiskra")}</div>
+          <h3>Výtvarné a keramické činnosti</h3>
+          <p class="small muted">Výtvarná profilace školky s pravidelným keramickým tvořením,
+            prací s přírodními i netradičními materiály a osvojováním různých technik.</p></article>
+        <article class="card card--teal"><div class="card__icon">{ico("nota")}</div>
+          <h3>Hudební činnosti</h3>
+          <p class="small muted">Zpěv, rytmizace, hra na nástroje a hudební improvizace –
+            ve spolupráci se ZUŠ Veveří.</p></article>
+        <article class="card card--green"><div class="card__icon">{ico("stit")}</div>
+          <h3>Pohyb a zdravý životní styl</h3>
+          <p class="small muted">Pravidelné sportování s náčiním i na nářadí, návyky zdravého
+            držení těla a uspokojení přirozené potřeby pohybu.</p></article>
+        <article class="card card--green"><div class="card__icon">{ico("list")}</div>
+          <h3>Environmentální výchova</h3>
+          <p class="small muted">Péče o zahradu, třídění a recyklace, ekologické programy
+            s Lipkou a Rozmarýnkem.</p></article>
+        <article class="card"><div class="card__icon">{ico("kniha")}</div>
+          <h3>Práce s knihou</h3>
+          <p class="small muted">Budujeme vztah ke knize jako zdroji informací i uměleckému dílu –
+            četba, ilustrace, návštěvy knihovny.</p></article>
+        <article class="card card--teal"><div class="card__icon">{ico("domek")}</div>
+          <h3>Estetika prostředí</h3>
+          <p class="small muted">Na tom, jak školka vypadá, nám záleží – prostředí je součástí
+            toho, co děti učíme.</p></article>
       </div>
     </div>
   </div>
@@ -900,7 +922,7 @@ def vzdelavani_page():
     {head("Jak učíme", "Učení, které dává dětem smysl")}
     <div class="grid grid-2">
       <div class="card"><div class="card__icon">{ico("jiskra")}</div>
-        <h3>Hra jako hlavní nástroj učení</h3>
+        <h3>Spontánní hra jako hlavní nástroj učení</h3>
         <p>Spontánní hru maximálně využíváme – je pro předškolní věk nejpřirozenější cestou k poznání.
           Vyvážený poměr spontánních a řízených činností udržujeme po celý den.</p></div>
       <div class="card card--green"><div class="card__icon">{ico("lupa")}</div>
@@ -1534,6 +1556,8 @@ def fotogalerie_page():
         <p>Připravujeme profesionální fotografie heren, školní zahrady, keramické dílny
           a dalších míst, kde děti tráví den. Fotografie dětí na webu záměrně nezveřejňujeme –
           ukazujeme prostředí, detaily a ruce při práci.</p>
+        <p style="margin-top:16px">Certifikáty, osvědčení a plakáty projektů – Mrkvička, MAP Brno V –
+          najdete na stránce <a href="projekty.html">Projekty a spolupráce</a>.</p>
         <p style="margin-top:16px"><a class="btn btn--ghost btn--sm" href="kontakty.html">
           Chcete se přijít podívat naživo? {SIPKA}</a></p>
       </div>
@@ -1614,9 +1638,16 @@ def kontakty_page():
           <a href="https://mapy.cz/zakladni?q=%C5%BDi%C5%BEkova%201989%2F57%20Brno" target="_blank" rel="noopener">
             Otevřít v Mapy.cz {SIPKA}</a></p></div>
         <div class="card card--green"><div class="card__icon">{ico("lide")}</div>
-          <h3>Městskou hromadnou dopravou</h3>
-          <p>Nejbližší zastávky jsou v docházkové vzdálenosti několika minut. Aktuální spojení
-            si nejlépe ověříte v <a href="https://idsjmk.cz" target="_blank" rel="noopener">vyhledávači IDS JMK</a>.</p></div>
+          <h3>MHD</h3>
+          <p>Nejbližší zastávky (vzdušnou čarou od školky):</p>
+          {ticks([
+            "<strong>Tábor</strong> – asi 180 m",
+            "<strong>Kounicovy koleje</strong> – asi 320 m",
+            "<strong>Spojovací</strong> – asi 370 m",
+            "<strong>Klusáčkova</strong> – asi 540 m",
+          ])}
+          <p class="small muted" style="margin-top:1em">Aktuální linky a spojení najdete
+            ve <a href="https://idsjmk.cz" target="_blank" rel="noopener">vyhledávači IDS JMK</a>.</p></div>
         <div class="card card--teal"><div class="card__icon">{ico("domek")}</div>
           <h3>Parkování</h3>
           <p>V okolí školy lze parkovat v režimu rezidentního parkování Brno. Pro krátké zastavení
