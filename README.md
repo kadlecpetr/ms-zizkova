@@ -38,6 +38,10 @@ Pořadí sekcí i podsekcí odpovídá dokumentu *Struktura webu – verze 2*:
 | 7. Fotogalerie | `fotogalerie.html` |
 | 8.1–8.3 Údaje · Doprava · Povinné informace | `kontakty.html` + kontakty v zápatí |
 
+Kontakty jsou **jen v zápatí**, jak zadání říká („8. KONTAKTY (v zápatí)“).
+Tmavý pruh s adresou a telefonem nad hlavním menu byl původně navíc, ale
+v zadání není – odstraněn 6. 9. 2026.
+
 Dokument uvádí u 2.1 „aplikace Naše MŠ“ – blok o aplikaci je proto na stránce Škola,
 ne u rodičů. Adaptace je odrážkou 5.1, takže navazuje hned na „Informace pro nové rodiče“.
 Platby (školné a stravné) v dokumentu nejsou samostatně, jsou proto součástí 5.2 Dokumenty.

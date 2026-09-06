@@ -146,17 +146,6 @@ def header(active):
     mobile = "".join(mob)
 
     return f'''<a class="skip" href="#obsah">Přeskočit na obsah</a>
-<div class="topbar"><div class="wrap topbar__in">
-  <div class="topbar__set">
-    <span class="topbar__item">{ico("pin",14)} {SKOLA["ulice"]}, {SKOLA["mesto"]}</span>
-    <span class="topbar__item">{ico("hodiny",14)} Provoz {SKOLA["provoz"]}</span>
-  </div>
-  <div class="topbar__set">
-    <a class="topbar__item" href="tel:{SKOLA["tel_link"]}">{ico("telefon",14)} {SKOLA["tel"]}</a>
-    <a class="topbar__item" href="mailto:{SKOLA["mail"]}">{ico("mail",14)} {SKOLA["mail"]}</a>
-  </div>
-</div></div>
-
 <header class="header"><div class="wrap header__in">
   <a class="logo" href="index.html"><img src="assets/img/logo.svg" width="270" height="64" alt="{SKOLA["kratky"]}"></a>
   <nav class="nav" aria-label="Hlavní navigace">{nav}</nav>

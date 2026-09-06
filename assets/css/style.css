@@ -141,16 +141,6 @@ p:last-child{margin-bottom:0}
 .btn:hover .btn__arrow{transform:translateX(3px)}
 
 /* ---------- hlavička ---------- */
-.topbar{
-  background:var(--blue-900);color:#C9D9EA;
-  font-size:.83rem;line-height:1
-}
-.topbar__in{display:flex;flex-wrap:wrap;gap:.4em 1.6em;align-items:center;justify-content:space-between;padding-block:.62em}
-.topbar a{color:#E4EEF8;text-decoration:none}
-.topbar a:hover{color:#fff;text-decoration:underline}
-.topbar__set{display:flex;flex-wrap:wrap;gap:.4em 1.4em;align-items:center}
-.topbar__item{display:inline-flex;align-items:center;gap:.45em}
-
 .header{
   position:sticky;top:0;z-index:60;background:rgba(252,252,250,.92);
   backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)
@@ -571,7 +561,7 @@ p:last-child{margin-bottom:0}
 
 /* ---------- tisk ---------- */
 @media print{
-  .header,.topbar,.subnav,.mobile,.cta,.footer__bottom{display:none}
+  .header,.subnav,.mobile,.cta,.footer__bottom{display:none}
   body{background:#fff}
   .section{padding:18px 0}
 }
