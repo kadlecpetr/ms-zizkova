@@ -722,6 +722,7 @@ def skola_page():
         {head("Školní zahrada", "Zahrada jako druhá třída")}
         <p>Rozlehlá školní zahrada je jedním z největších bohatství naší školky. Děti tu tráví každý den
           podstatnou část dopoledne i odpoledne – hrají si, zkoumají, pěstují a pozorují proměny přírody.</p>
+        <p><strong>Přírodní a herní prvky zahrady:</strong></p>
         {ticks([
           "tři pískoviště a hrací prvek se skluzavkou",
           "mlhoviště pro horké dny",
