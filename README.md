@@ -189,6 +189,23 @@ technická dílna s ponkem, detail dětských rukou při tvoření, certifikáty
 > MEDA…). Vzhledem k tomu, že fotky dětí na web záměrně nedáváme, je na místě potvrdit,
 > že jména přímo v kresbách jsou v pořádku.
 
+## Plakát „Vize a hodnoty“
+
+Infografika školky (technika – hudba – ekologie) je na stránce **Vzdělávání → Zaměření školy**.
+Kliknutím se otevře ve větší velikosti.
+
+| soubor | co to je |
+|---|---|
+| `assets/img/plakat-vize-hodnoty.jpg` | webová verze, 903 × 1311 |
+| `podklady/plakat/plakat-original.png` | původní obrázek vytažený z dokumentu |
+| `podklady/plakat/Plakat_vize_hodnoty_MS.docx` | dokument, ve kterém plakát přišel |
+
+> **⚠️ Zápatí plakátu je oříznuté.** V originále je v něm telefon **541 212 062**,
+> který od 1. 9. 2026 neplatí – škola má číslo **770 696 365**. Web proto ukazuje plakát
+> bez toho spodního kontaktního pruhu a plakát není nabízený ke stažení.
+> Až školka pošle opravenou verzi, stačí přepsat `plakat-vize-hodnoty.jpg`
+> (a výřez v tu chvíli přestane být potřeba).
+
 ## Grafický podkres
 
 `assets/img/podkres.svg` je bezešvá dlaždice 520 × 520 px s jemnou mozaikou dětských kreseb
@@ -234,9 +251,10 @@ Nic dalšího se měnit nemusí – podkres se propíše na všech místech naje
    nemusí být aktuální. Seznam je `TYM` v `build.py`.
 5. **Režim dne** – vložený rozvrh je obvyklý rámec pro MŠ, ne oficiální dokument školy.
    Potřebuje potvrdit / upravit (`REZIM` v `build.py`).
-6. **Jídelníček** – `assets/dokumenty/jidelnicek-aktualni.pdf`. Při týdenní aktualizaci se jen
+6. **Opravený plakát vize a hodnot** – s aktuálním telefonním číslem, viz sekce níže.
+7. **Jídelníček** – `assets/dokumenty/jidelnicek-aktualni.pdf`. Při týdenní aktualizaci se jen
    přepíše soubor pod stejným názvem, na webu se nic měnit nemusí.
-7. **Odkaz na aplikaci Naše MŠ** – zatím vede na kontakty; až bude k dispozici přihlašovací
+8. **Odkaz na aplikaci Naše MŠ** – zatím vede na kontakty; až bude k dispozici přihlašovací
    URL školy, doplní se.
 
 ---

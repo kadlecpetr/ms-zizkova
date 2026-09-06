@@ -851,6 +851,33 @@ def vzdelavani_page():
       "Tři oblasti, které dětem otevírají svět v jeho přirozených souvislostech. "
       "Partneři: FAST VUT, ZUŠ Veveří, Lipka, Otevřená zahrada, divadlo Husa na provázku a ZŠ Sirotkova.", center=True)}
     {pilire_html()}
+
+    <div class="card" style="margin-top:clamp(30px,3.6vw,48px);padding:clamp(24px,3vw,38px)">
+      <div class="plakat">
+        <figure class="plakat__obr">
+          <a href="assets/img/plakat-vize-hodnoty.jpg" target="_blank" rel="noopener"
+             title="Otevřít plakát ve větší velikosti">
+            <img src="assets/img/plakat-vize-hodnoty.jpg" width="903" height="1311"
+                 alt="Plakát: Mateřská škola Žižkova, Brno – technika, hudba, ekologie"
+                 loading="lazy" decoding="async">
+          </a>
+        </figure>
+        <div>
+          {head("Na jednom listu", "Vize a hodnoty naší školky")}
+          <p>Technika, hudba a ekologie – tři oblasti, na kterých stojí naše vzdělávání.
+            Plakát shrnuje, co za nimi konkrétně je, i důvody, proč si rodiče vybírají
+            právě nás. Visí u vchodu do školky.</p>
+          {ticks([
+            "<strong>Technika</strong> – malí stavitelé a inženýři, pokusy, projekt s FAST VUT",
+            "<strong>Hudba</strong> – malí hudebníci, spolupráce se ZUŠ Veveří, koncerty",
+            "<strong>Ekologie</strong> – eko-badatelé, péče o přírodu, recyklace",
+          ])}
+          <p style="margin-top:1.3em"><em>„Společně tvoříme svět, ve kterém děti objevují,
+            učí se a rostou s radostí.“</em></p>
+        </div>
+      </div>
+    </div>
+
     <div style="margin-top:clamp(34px,4vw,54px)">
       {head("Unikátní koncept", "Propojení polytechniky, ekologie a umění", center=True)}
       <div class="grid grid-3">{propojeni}</div>

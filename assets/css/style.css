@@ -450,6 +450,16 @@ p:last-child{margin-bottom:0}
   display:flex;flex-wrap:wrap;gap:.3em 1em;justify-content:space-between
 }
 
+/* ---------- plakát vize a hodnot ---------- */
+.plakat{display:grid;gap:clamp(22px,3.2vw,44px);align-items:center;grid-template-columns:1fr}
+@media (min-width:700px){.plakat{grid-template-columns:minmax(0,.8fr) minmax(0,1fr)}}
+.plakat__obr{margin:0 auto;border-radius:var(--r-lg);overflow:hidden;background:#fff;
+  border:1px solid var(--line);box-shadow:var(--shadow-lg);max-width:420px;transition:.2s}
+.plakat__obr a{display:block}
+.plakat__obr:hover{transform:translateY(-3px)}
+.plakat__obr img{width:100%;height:auto;display:block}
+.plakat__obr:hover{box-shadow:var(--shadow-md)}
+
 /* ---------- fotogalerie ---------- */
 .gallery{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%, 230px), 1fr))}
 .gallery figure{margin:0;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);background:var(--blue-100);aspect-ratio:4/3}
