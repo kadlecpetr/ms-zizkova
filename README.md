@@ -95,11 +95,13 @@ soubory. Pak se ale hlavička/patička musí měnit na osmi místech.
 
 ## Logo
 
-Podle připomínky, že současné logo je příliš vysoké a nepůsobí moderně, vznikla nová
-**nízká vodorovná verze**. Značka je **písmeno „O“ z původního nápisu MŠ ŽIŽKOVA** –
-to, ve kterém sedí zajíček, veverka a ježeček, tedy tři třídy školky. Vyříznuté,
-zvektorizované a přebarvené do přechodu modrá → eukalypt; vedle něj wordmark v písmu Outfit.
-Poměr stran zhruba 3,7:1, takže se vejde do úzké hlavičky webu.
+Logem je **původní nápis MŠ ŽIŽKOVA** – ten, ve kterém v písmenu „O“ sedí zajíček,
+veverka a ježeček, tedy tři třídy školky. Není použitý jako obrázek, ale
+**zvektorizovaný** (potrace), takže je ostrý v každé velikosti i v tisku.
+Poměr stran 4,2 : 1, v hlavičce webu má výšku 38 px.
+
+Samotné „O“ je vyříznuté zvlášť jako `znacka.svg` / `favicon.svg` – do čtvercových
+míst, kde by se celý nápis nevešel.
 
 Celou rodinu log sestaví skript – po změně stačí spustit:
 
@@ -114,13 +116,13 @@ Vyřízne O z `podklady/logo-puvodni-1000.png`, převede na vektor a poskládá 
 | `assets/img/logo.svg` | web, světlé pozadí |
 | `assets/img/logo-inverzni.svg` | tmavé pozadí (patička, prezentace) |
 | `assets/img/logo-jednobarevne.svg` | jednobarevný tisk, razítko, faxová kvalita |
-| `assets/img/logo-hlavickovy-papir.svg` | **hlavičkový papír** – plný název + adresní řádek |
-| `assets/img/znacka.svg` | samotná značka (avatar, razítko, sociální sítě) |
+| `assets/img/logo-hlavickovy-papir.svg` | **hlavičkový papír** – nápis, plný název a adresní řádek |
+| `assets/img/znacka.svg` | samotné „O“ se zvířátky (avatar, razítko, sociální sítě) |
 | `assets/img/favicon.svg` | ikona v prohlížeči |
 | `*.png` (`@4x`, `@8x`) | tytéž verze v PNG s průhledným pozadím pro Word, Canva apod. |
 
-Písmo je v SVG **vložené** (embedded woff2), takže se logo zobrazí správně i na počítači,
-kde Outfit nainstalovaný není.
+Nápis je vektorová kresba, ne text, takže nezávisí na žádném nainstalovaném písmu.
+Doplňkové řádky na hlavičkovém papíře mají písmo Outfit **vložené** v SVG.
 
 Barvy značky:
 

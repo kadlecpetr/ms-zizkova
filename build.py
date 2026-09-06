@@ -158,7 +158,7 @@ def header(active):
 </div></div>
 
 <header class="header"><div class="wrap header__in">
-  <a class="logo" href="index.html"><img src="assets/img/logo.svg" width="236" height="64" alt="{SKOLA["kratky"]}"></a>
+  <a class="logo" href="index.html"><img src="assets/img/logo.svg" width="270" height="64" alt="{SKOLA["kratky"]}"></a>
   <nav class="nav" aria-label="Hlavní navigace">{nav}</nav>
   <a class="btn btn--primary btn--sm header__cta" href="zapis.html">{ico("zapis",16)} Zápis do MŠ</a>
   <button class="burger" type="button" aria-label="Otevřít menu" aria-expanded="false" data-menu-open><span></span></button>
@@ -167,7 +167,7 @@ def header(active):
 <div class="mobile" id="mobilni-menu" hidden>
   <div class="wrap" style="padding:0">
     <div class="mobile__top">
-      <a class="logo" href="index.html"><img src="assets/img/logo.svg" width="236" height="64" alt="{SKOLA["kratky"]}"></a>
+      <a class="logo" href="index.html"><img src="assets/img/logo.svg" width="270" height="64" alt="{SKOLA["kratky"]}"></a>
       <button class="mobile__close" type="button" aria-label="Zavřít menu" data-menu-close>&times;</button>
     </div>
     {mobile}
@@ -182,7 +182,7 @@ def footer():
     return f'''<footer class="footer"><div class="wrap">
   <div class="footer__grid">
     <div>
-      <div class="footer__logo"><img src="assets/img/logo-inverzni.svg" width="236" height="64" alt="{SKOLA["kratky"]}"></div>
+      <div class="footer__logo"><img src="assets/img/logo-inverzni.svg" width="270" height="64" alt="{SKOLA["kratky"]}"></div>
       <p class="footer__note">{SKOLA["nazev"]}<br>
       Zřizovatel: {SKOLA["zrizovatel"]}<br>
       IČ: {SKOLA["ico"]} &middot; datová schránka: {SKOLA["ds"]}</p>

@@ -21,28 +21,36 @@ PUVODNI = os.path.join(ROOT, "podklady/logo-puvodni-1000.png")
 VYREZ   = "139x205+646+45"
 
 INK   = "#1E3350"     # tmavá modrá – text
+MODRA = "#4A72AC"     # firemní modrá – barva loga
 ZELEN = "#6E9C87"     # eukalypt – podtitul
 MINT  = "#A9CDBB"
 
 def sh(*a, **kw):
     return subprocess.run(a, check=True, capture_output=True, text=True, **kw).stdout
 
-def vektorizuj():
-    """Vyřízne O, ořízne na těsno a převede na vektorovou cestu."""
-    sh("magick", PUVODNI, "-background", "white", "-flatten",
-       "-crop", VYREZ, "+repage", "-colorspace", "gray",
-       "-resize", "800%", "-threshold", "62%",
-       "-trim", "+repage", f"pbm:{TMP}.pbm")
-    sh("potrace", f"{TMP}.pbm", "-s", "-o", f"{TMP}.svg",
+def vektorizuj(vyrez=None, zvetseni="800%", jmeno="a"):
+    """Vyřízne část loga, ořízne na těsno a převede na vektorovou cestu."""
+    prikaz = ["magick", PUVODNI, "-background", "white", "-flatten"]
+    if vyrez:
+        prikaz += ["-crop", vyrez, "+repage"]
+    prikaz += ["-colorspace", "gray", "-resize", zvetseni, "-threshold", "62%",
+               "-trim", "+repage", f"pbm:{TMP}{jmeno}.pbm"]
+    sh(*prikaz)
+    sh("potrace", f"{TMP}{jmeno}.pbm", "-s", "-o", f"{TMP}{jmeno}.svg",
        "--alphamax", "1.0", "--opttolerance", "0.2", "--turdsize", "12")
-    svg = open(f"{TMP}.svg", encoding="utf-8").read()
+    svg = open(f"{TMP}{jmeno}.svg", encoding="utf-8").read()
     w, h = (float(x) for x in re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', svg).groups())
     telo = re.search(r"(<g transform=.*?</g>)", svg, re.S).group(1)
     telo = telo.replace('fill="#000000"', 'fill="FILL"')
     return telo, w, h
 
-TELO, VB_W, VB_H = vektorizuj()
-POMER = VB_W / VB_H          # značka je na výšku, cca 0,68
+# samotná značka „O“ (do faviconu a čtvercových míst)
+TELO, VB_W, VB_H = vektorizuj(VYREZ, jmeno="o")
+POMER = VB_W / VB_H          # značka je na výšku, cca 0,71
+
+# celý nápis MŠ ŽIŽKOVA i se zvířátky v O
+NAPIS, NAP_W, NAP_H = vektorizuj(None, "400%", jmeno="n")
+NAP_POMER = NAP_W / NAP_H    # cca 4,2 : 1
 
 def znacka(uid, vyska, x=0, y=0, barva=None):
     """Značka „O“ vysoká `vyska`, levý horní roh na (x, y)."""
@@ -95,39 +103,31 @@ def main():
         zapis(jmeno, svg("0 0 64 64", f"<defs>{gradient(uid)}</defs>"
                          + znacka(uid, 60, x, 2), 64, 64, "MŠ Žižkova"))
 
-    # --- vodorovné logo ---
-    def vodorovne(uid, barva_nazvu, barva_podtitulu, barva_znacky=None):
-        text_x = sirka_znacky + 17
-        return ("<defs>" + gradient(uid) + "</defs>" + FONT
-                + znacka(uid, 64, 0, 0, barva_znacky)
-                + f'<text class="n" x="{text_x:.1f}" y="33.5" font-size="34" '
-                  f'letter-spacing="-0.4" fill="{barva_nazvu}">MŠ Žižkova</text>'
-                + f'<text class="n" x="{text_x+.5:.1f}" y="51.5" font-size="12" '
-                  f'letter-spacing="2.6" fill="{barva_podtitulu}">BRNO &#183; ŽABOVŘESKY</text>')
+    # --- vodorovné logo = původní nápis MŠ ŽIŽKOVA ---
+    def napis(barva, vyska=64, x=0, y=0):
+        s = vyska / NAP_H
+        return (f'<g transform="translate({x:.2f},{y:.2f}) scale({s:.6f})">'
+                + NAPIS.replace("FILL", barva) + "</g>")
 
-    sirka = sirka_znacky + 17 + 174
-    zapis("logo.svg",           svg(f"0 0 {sirka:.0f} 64", vodorovne("a", INK, ZELEN),   int(sirka), 64))
-    zapis("logo-inverzni.svg",  svg(f"0 0 {sirka:.0f} 64", vodorovne("b", "#FFFFFF", MINT, "#FFFFFF"), int(sirka), 64))
-    zapis("logo-jednobarevne.svg", svg(f"0 0 {sirka:.0f} 64", vodorovne("d", INK, INK, INK), int(sirka), 64))
+    sirka = 64 * NAP_POMER
+    vb = f"0 0 {sirka:.0f} 64"
+    zapis("logo.svg",              svg(vb, napis(MODRA),     int(sirka), 64))
+    zapis("logo-inverzni.svg",     svg(vb, napis("#FFFFFF"), int(sirka), 64))
+    zapis("logo-jednobarevne.svg", svg(vb, napis(INK),       int(sirka), 64))
 
     # --- hlavičkový papír ---
-    zn_h = 60
-    zn_w = zn_h * POMER
-    tx = zn_w + 16
-    hlavicka = ("<defs>" + gradient("h") + "</defs>" + FONT + znacka("h", zn_h, 0, 2)
-        + f'<text class="n" x="{tx:.1f}" y="30" font-size="26" letter-spacing="-0.3" '
-          f'fill="{INK}">Mateřská škola, Brno, Žižkova 57</text>'
-        + f'<text class="n" x="{tx+.5:.1f}" y="49" font-size="10.5" letter-spacing="2.2" '
-          f'fill="{ZELEN}">PŘÍSPĚVKOVÁ ORGANIZACE</text>'
-        + '<line x1="0" y1="70" x2="700" y2="70" stroke="#DDE4EA" stroke-width="1.5"/>'
-        + '<text class="n" x="0" y="87" font-size="10" letter-spacing="0.35" fill="#6E7F8B">'
+    hlavicka = (FONT + napis(MODRA, 46, 0, 4)
+        + f'<text class="n" x="0" y="70" font-size="11" letter-spacing="1.9" '
+          f'fill="{ZELEN}">MATEŘSKÁ ŠKOLA, BRNO, ŽIŽKOVA 57, PŘÍSPĚVKOVÁ ORGANIZACE</text>'
+        + '<line x1="0" y1="82" x2="700" y2="82" stroke="#DDE4EA" stroke-width="1.5"/>'
+        + '<text class="n" x="0" y="99" font-size="10" letter-spacing="0.35" fill="#6E7F8B">'
           'ŽIŽKOVA 1989/57, 616 00 BRNO-ŽABOVŘESKY &#160;&#183;&#160; 770 696 365 &#160;&#183;&#160; '
           'REDITELKA@SKOLKA-ZIZKOVA.CZ &#160;&#183;&#160; IČ 70874794</text>')
     zapis("logo-hlavickovy-papir.svg",
-          svg("0 0 700 96", hlavicka, 700, 96,
+          svg("0 0 700 108", hlavicka, 700, 108,
               "Mateřská škola, Brno, Žižkova 57, příspěvková organizace"))
 
-    print(f"\nZnačka má poměr {POMER:.3f} (š:v), logo je {sirka:.0f}×64.")
+    print(f"\nZnačka „O“ má poměr {POMER:.3f}, nápis {NAP_POMER:.2f} : 1, logo {sirka:.0f}×64.")
 
 if __name__ == "__main__":
     main()
