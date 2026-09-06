@@ -317,6 +317,34 @@ s důrazem na bezpečí a stabilitu je promítnutá do sekce Hodnoty.
 
 ---
 
+## Veřejný náhled pro klientku
+
+**https://kadlecpetr.github.io/ms-zizkova/**
+
+Odkaz se dá poslat komukoli – otevře se v každém prohlížeči, nic se neinstaluje.
+Běží z větve `gh-pages` repozitáře `kadlecpetr/ms-zizkova`.
+
+Aktualizace po jakékoli úpravě webu:
+
+```bash
+./nasad-nahled.sh
+```
+
+Náhled se od ostré verze liší jen ve třech věcech, které přidává
+`podklady/pripravit_nahled.py`:
+
+* `<meta name="robots" content="noindex,nofollow">` na každé stránce,
+* `robots.txt` se zákazem indexace, `sitemap.xml` se do náhledu nedává,
+* úzký pruh nahoře „Náhled nového webu“.
+
+> **Proč noindex:** repozitář je veřejný, takže bez toho by Google mohl náhled
+> zaindexovat a konkuroval by pak skutečné doméně školky duplicitním obsahem.
+> Do ostré verze na `skolka-zizkova.cz` se nasazuje obyčejný výstup `build.py`,
+> tedy **bez** noindexu a s funkční `sitemap.xml`.
+
+Až bude web schválený, náhled se vypne smazáním větve `gh-pages`
+(nebo celého repozitáře).
+
 ## Lokální náhled
 
 ```bash
