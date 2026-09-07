@@ -83,8 +83,8 @@ POMER = VB_W / VB_H          # značka je na výšku, cca 0,71
 # přitáhnou k verzálkám a ušetřená šířka se rozpustí do mezer. Poměr stran tím
 # jde ze 4,2 : 1 na 4,85 : 1, aniž by se kresba písmen deformovala.
 
-VYSKA_PISMA = 0.89   # měřítko písmen proti původnímu nápisu
-HACKY_BLIZE = 0.55   # o kolik z mezery pod háčky je přitáhnout k verzálkám
+VYSKA_PISMA = 1.00   # měřítko písmen proti původnímu nápisu
+HACKY_BLIZE = 0.00   # o kolik z mezery pod háčky je přitáhnout k verzálkám
 
 vektorizuj(None, "400%", jmeno="n")
 _CESTY = cesty("n")
