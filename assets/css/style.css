@@ -147,7 +147,7 @@ p:last-child{margin-bottom:0}
 }
 .header__in{display:flex;align-items:center;gap:24px;min-height:76px}
 .logo{display:flex;align-items:center;flex:none}
-.logo img{height:38px;width:auto}
+.logo img{height:34px;width:auto}
 .logo:hover{text-decoration:none}
 
 .nav{margin-left:auto;display:flex;align-items:center;gap:2px}
@@ -496,7 +496,7 @@ p:last-child{margin-bottom:0}
 .footer a:hover{color:#fff;text-decoration:underline}
 .footer h4{color:#fff;font-size:.83rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.15em;font-weight:600}
 .footer__grid{display:grid;gap:clamp(28px,3.4vw,44px);grid-template-columns:1.4fr 1fr 1fr 1.15fr}
-.footer__logo img{height:36px;width:auto;margin-bottom:18px}
+.footer__logo img{height:32px;width:auto;margin-bottom:18px}
 .footer__list{list-style:none;margin:0;padding:0;display:grid;gap:.6em;font-size:.95rem}
 .footer__note{font-size:.92rem;line-height:1.6}
 .footer__bottom{
@@ -544,7 +544,7 @@ p:last-child{margin-bottom:0}
 /* nízké obrazovky (telefon naležato) – lepivá hlavička nesmí sežrat displej */
 @media (max-height:520px) and (orientation:landscape){
   .header__in{min-height:54px}
-  .logo img{height:29px}
+  .logo img{height:26px}
   .header__cta,.burger{transform:scale(.92)}
   .subnav{position:static}
   .subnav__in{padding-block:7px}

@@ -102,7 +102,7 @@ soubory. Pak se ale hlavička/patička musí měnit na osmi místech.
 Logem je **původní nápis MŠ ŽIŽKOVA** – ten, ve kterém v písmenu „O“ sedí zajíček,
 veverka a ježeček, tedy tři třídy školky. Není použitý jako obrázek, ale
 **zvektorizovaný** (potrace), takže je ostrý v každé velikosti i v tisku.
-Poměr stran 4,2 : 1, v hlavičce webu má výšku 38 px.
+Poměr stran 4,85 : 1, v hlavičce webu má výšku 34 px.
 
 Samotné „O“ je vyříznuté zvlášť jako `znacka.svg` / `favicon.svg` – do čtvercových
 míst, kde by se celý nápis nevešel.
@@ -113,7 +113,22 @@ Celou rodinu log sestaví skript – po změně stačí spustit:
 python3 podklady/udelej_logo.py     # potřebuje: brew install imagemagick potrace
 ```
 
-Vyřízne O z `podklady/logo-puvodni-1000.png`, převede na vektor a poskládá všechny verze.
+Vyřízne O z `podklady/logo-puvodni-1000.png`, převede na vektor a poskládá všechny
+verze včetně PNG (ty kreslí Chrome, ImageMagick neumí vysázet vložené písmo).
+
+Nápis je na přání klientky **nižší a širší** než původní logo. Skript ho kvůli tomu
+rozloží na jednotlivá písmena a háčky a složí znovu; řídí se dvěma konstantami
+nahoře v souboru:
+
+| konstanta | co dělá | teď |
+|---|---|---|
+| `VYSKA_PISMA` | měřítko písmen proti původnímu nápisu | `0.89` |
+| `HACKY_BLIZE` | o kolik z mezery pod háčky je přitáhnout k verzálkám | `0.55` |
+
+Nižší `VYSKA_PISMA` = menší písmo, širší rozpal a plošší logo (1.0 = původní
+poměr 4,2 : 1). Šířka nápisu zůstává stejná, ubraná výška se rozpustí do mezer
+mezi písmeny. Po změně je potřeba srovnat i `width`/`height` u loga v `build.py`
+a výšky `.logo img` / `.footer__logo img` v CSS.
 
 | Soubor | Použití |
 |---|---|
@@ -126,7 +141,8 @@ Vyřízne O z `podklady/logo-puvodni-1000.png`, převede na vektor a poskládá 
 | `*.png` (`@4x`, `@8x`) | tytéž verze v PNG s průhledným pozadím pro Word, Canva apod. |
 
 Nápis je vektorová kresba, ne text, takže nezávisí na žádném nainstalovaném písmu.
-Doplňkové řádky na hlavičkovém papíře mají písmo Outfit **vložené** v SVG.
+Doplňkové řádky na hlavičkovém papíře mají písmo Outfit **vložené** v SVG –
+leží v `podklady/pismo/` jako base64.
 
 Barvy značky:
 

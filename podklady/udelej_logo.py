@@ -44,13 +44,96 @@ def vektorizuj(vyrez=None, zvetseni="800%", jmeno="a"):
     telo = telo.replace('fill="#000000"', 'fill="FILL"')
     return telo, w, h
 
+def cesty(jmeno):
+    """Jednotlivé <path> vektorizovaného obrázku i s jejich obálkami."""
+    svg = open(f"{TMP}{jmeno}.svg", encoding="utf-8").read()
+    return [(d, obalka(d)) for d in re.findall(r'<path d="(.*?)"[^>]*/>', svg, re.S)]
+
+def obalka(d):
+    """Obdélník opsaný cestě. Potrace kreslí v soustavě, kde y roste nahoru."""
+    toks = re.findall(r"[a-zA-Z]|-?\d*\.?\d+", d)
+    x = y = 0.0; xs = []; ys = []; cmd = None; i = 0
+    while i < len(toks):
+        t = toks[i]
+        if re.match(r"[a-zA-Z]", t):
+            cmd = t; i += 1; continue
+        n = 6 if cmd in "cC" else (1 if cmd in "hHvV" else 2)
+        v = [float(k) for k in toks[i:i + n]]; i += n
+        if   cmd == "m": x += v[0]; y += v[1]
+        elif cmd == "M": x, y = v
+        elif cmd == "l": x += v[0]; y += v[1]
+        elif cmd == "L": x, y = v
+        elif cmd == "c": x += v[4]; y += v[5]
+        elif cmd == "C": x, y = v[4], v[5]
+        elif cmd == "v": y += v[0]
+        elif cmd == "V": y = v[0]
+        elif cmd == "h": x += v[0]
+        elif cmd == "H": x = v[0]
+        xs.append(x); ys.append(y)
+    return min(xs), min(ys), max(xs), max(ys)
+
 # samotná značka „O“ (do faviconu a čtvercových míst)
 TELO, VB_W, VB_H = vektorizuj(VYREZ, jmeno="o")
 POMER = VB_W / VB_H          # značka je na výšku, cca 0,71
 
-# celý nápis MŠ ŽIŽKOVA i se zvířátky v O
-NAPIS, NAP_W, NAP_H = vektorizuj(None, "400%", jmeno="n")
-NAP_POMER = NAP_W / NAP_H    # cca 4,2 : 1
+# --- celý nápis MŠ ŽIŽKOVA i se zvířátky v O ---------------------------------
+#
+# Klientka chtěla logo méně „do výšky“ – širší a kompaktnější. Nápis se proto
+# rozloží na jednotlivá písmena a háčky, písmo se o kousek zmenší, háčky se
+# přitáhnou k verzálkám a ušetřená šířka se rozpustí do mezer. Poměr stran tím
+# jde ze 4,2 : 1 na 4,85 : 1, aniž by se kresba písmen deformovala.
+
+VYSKA_PISMA = 0.89   # měřítko písmen proti původnímu nápisu
+HACKY_BLIZE = 0.55   # o kolik z mezery pod háčky je přitáhnout k verzálkám
+
+vektorizuj(None, "400%", jmeno="n")
+_CESTY = cesty("n")
+
+_HRANICE_HACKU = 7800        # nad touto hladinou leží už jen háčky nad Š a Ž
+_TELO  = sorted([c for c in _CESTY if c[1][1] <  _HRANICE_HACKU], key=lambda c: c[1][0])
+_HACKY =        [c for c in _CESTY if c[1][1] >= _HRANICE_HACKU]
+
+# písmena = shluky cest, které se v ose x překrývají
+GLYFY = []
+for d, b in _TELO:
+    if GLYFY and b[0] <= GLYFY[-1]["x1"] + 1:
+        g = GLYFY[-1]
+        g["dily"].append(d); g["x1"] = max(g["x1"], b[2])
+    else:
+        GLYFY.append({"dily": [d], "x0": b[0], "x1": b[2], "hacky": []})
+
+# každý háček patří písmenu, nad kterým sedí
+for d, b in _HACKY:
+    stred = (b[0] + b[2]) / 2
+    min(GLYFY, key=lambda g: 0 if g["x0"] <= stred <= g["x1"]
+        else min(abs(g["x0"] - stred), abs(g["x1"] - stred)))["hacky"].append(d)
+
+MEZERY   = [GLYFY[i + 1]["x0"] - GLYFY[i]["x1"] for i in range(len(GLYFY) - 1)]
+NAP_W    = GLYFY[-1]["x1"] - GLYFY[0]["x0"]
+SPODEK   = min(b[1] for _, b in _CESTY)
+VRCH     = max(b[3] for _, b in _HACKY)
+POD_HACKY = min(b[1] for _, b in _HACKY) - max(b[3] for _, b in _TELO)
+
+def _slozeny_napis():
+    """Přeskládaný nápis v souřadnicích potrace; vrací (kusy, šířka, výška)."""
+    s = VYSKA_PISMA
+    zbytek = NAP_W - s * sum(g["x1"] - g["x0"] for g in GLYFY)
+    mezery = [m * zbytek / sum(MEZERY) for m in MEZERY]
+    dolu = POD_HACKY * s * HACKY_BLIZE
+
+    kusy = []; kurzor = 0.0
+    for i, g in enumerate(GLYFY):
+        dx = kurzor - s * g["x0"]
+        dy = SPODEK - s * SPODEK
+        for d in g["dily"]:
+            kusy.append(f'<g transform="translate({dx:.2f},{dy:.2f}) scale({s:.5f})"><path d="{d}"/></g>')
+        for d in g["hacky"]:
+            kusy.append(f'<g transform="translate({dx:.2f},{dy - dolu:.2f}) scale({s:.5f})"><path d="{d}"/></g>')
+        kurzor += s * (g["x1"] - g["x0"]) + (mezery[i] if i < len(mezery) else 0)
+    return "".join(kusy), NAP_W, s * (VRCH - SPODEK) - dolu
+
+NAPIS, NAP_W, NAP_H = _slozeny_napis()
+NAP_POMER = NAP_W / NAP_H    # cca 4,85 : 1
 
 def znacka(uid, vyska, x=0, y=0, barva=None):
     """Značka „O“ vysoká `vyska`, levý horní roh na (x, y)."""
@@ -66,7 +149,7 @@ def gradient(uid, c1="#4A72AC", c2="#4E8E9B"):
             f'</linearGradient>')
 
 # vložené písmo, aby se logo vysázelo správně i bez nainstalovaného Outfitu
-P = "/private/tmp/claude-501/-Users-petrkadlec/fdfb3e19-1e98-4e82-818d-186ac3032544/scratchpad/"
+P = os.path.join(ROOT, "podklady/pismo/")
 try:
     EXT = open(P + "o700ext.b64").read(); LAT = open(P + "o700lat.b64").read()
     FONT = ("<style>"
@@ -89,6 +172,26 @@ def svg(vb, telo, w=None, h=None, titulek="MŠ Žižkova, Brno"):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}"{rozmer} '
             f'role="img" aria-label="{titulek}"><title>{titulek}</title>{telo}</svg>\n')
 
+CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+def png(jmeno, sirka, vyska, mera=4):
+    """Vyexportuje SVG do PNG s průhledným pozadím (pro Word, Canva apod.).
+
+    Kreslí přes Chrome, ne přes ImageMagick – hlavičkový papír má písmo vložené
+    v SVG a to ImageMagick neumí vysázet."""
+    zdroj = os.path.join(IMG, jmeno + ".svg")
+    cil   = os.path.join(IMG, f"{jmeno}@{mera}x.png")
+    html  = (f"<style>html,body{{margin:0;background:transparent}}"
+             f"img{{display:block;width:{sirka * mera}px;height:{vyska * mera}px}}</style>"
+             f"<img src=\"file://{zdroj}\">")
+    with open(f"{TMP}.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    sh(CHROME, "--headless", "--disable-gpu", "--allow-file-access-from-files",
+       "--default-background-color=00000000", "--hide-scrollbars",
+       f"--window-size={sirka * mera},{vyska * mera}", "--virtual-time-budget=4000",
+       f"--screenshot={cil}", f"file://{TMP}.html")
+    print("  ", os.path.basename(cil))
+
 def zapis(jmeno, obsah):
     with open(os.path.join(IMG, jmeno), "w", encoding="utf-8") as f:
         f.write(obsah)
@@ -105,9 +208,10 @@ def main():
 
     # --- vodorovné logo = původní nápis MŠ ŽIŽKOVA ---
     def napis(barva, vyska=64, x=0, y=0):
-        s = vyska / NAP_H
-        return (f'<g transform="translate({x:.2f},{y:.2f}) scale({s:.6f})">'
-                + NAPIS.replace("FILL", barva) + "</g>")
+        """Nápis vysoký `vyska`, levý horní roh na (x, y)."""
+        k = vyska / NAP_H
+        return (f'<g fill="{barva}" transform="translate({x:.2f},{y + vyska:.2f}) '
+                f'scale({k:.6f},{-k:.6f}) translate(0,{-SPODEK:.2f})">' + NAPIS + "</g>")
 
     sirka = 64 * NAP_POMER
     vb = f"0 0 {sirka:.0f} 64"
@@ -126,6 +230,12 @@ def main():
     zapis("logo-hlavickovy-papir.svg",
           svg("0 0 700 108", hlavicka, 700, 108,
               "Mateřská škola, Brno, Žižkova 57, příspěvková organizace"))
+
+    # --- PNG verze s průhledným pozadím ---
+    for jmeno in ("logo", "logo-inverzni", "logo-jednobarevne"):
+        png(jmeno, int(sirka), 64)
+    png("logo-hlavickovy-papir", 700, 108)
+    png("znacka", 64, 64, mera=8)
 
     print(f"\nZnačka „O“ má poměr {POMER:.3f}, nápis {NAP_POMER:.2f} : 1, logo {sirka:.0f}×64.")
 
