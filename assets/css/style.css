@@ -632,3 +632,17 @@ h2{font-size:clamp(1.5rem,1.1rem + 1.5vw,2.2rem)}
 .footer__logo img{height:56px;margin-bottom:16px}
 .footer__bottom{border-top-color:rgba(36,91,99,.16)}
 .footer__list svg{color:var(--blue-700)}
+
+
+/* drobné obrysové ilustrace po stranách stránky (jen tam, kde je vedle obsahu místo) */
+body{position:relative}
+@media (min-width:1280px){
+  body::before,body::after{
+    content:"";position:absolute;top:76px;bottom:0;width:80px;z-index:2;pointer-events:none;
+    background-repeat:repeat-y;background-size:80px auto;opacity:.55
+  }
+  body::before{left:max(0px,calc((100vw - var(--wrap))/2 - 88px));background-image:url("../img/ilustrace-levy.svg")}
+  body::after{right:max(0px,calc((100vw - var(--wrap))/2 - 88px));background-image:url("../img/ilustrace-pravy.svg")}
+}
+@media print{body::before,body::after{display:none}}
+.hero::before{display:none}

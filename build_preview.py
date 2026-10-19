@@ -96,6 +96,8 @@ def main():
     # --- CSS s inlinovaným podkresem ---
     css = cti("assets/css/style.css")
     css = css.replace('url("../img/podkres.svg")', f'url("{data_uri("assets/img/podkres.svg")}")')
+    for _s in ("ilustrace-levy.svg", "ilustrace-pravy.svg"):
+        css = css.replace(f'url("../img/{_s}")', f'url("{data_uri("assets/img/" + _s)}")')
 
     # --- hlavička a patička (společné pro všechny stránky) ---
     hlavicka = re.search(r'(<a class="skip".*?</div>\s*)(?=<main)', index, re.S).group(1)
