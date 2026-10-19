@@ -74,6 +74,7 @@ _I = {
  "fotak":'<path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><circle cx="12" cy="13" r="3.5"/>',
  "domek":'<path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 21v-7h6v7"/>',
  "check":'<path d="m5 13 4 4L19 7"/>',
+ "paleta":'<circle cx="13.5" cy="6.5" r=".6"/><circle cx="17.5" cy="10.5" r=".6"/><circle cx="8.5" cy="7.5" r=".6"/><circle cx="6.5" cy="12.5" r=".6"/><path d="M12 2a10 10 0 0 0 0 20 1.7 1.7 0 0 0 1.3-2.8 1.7 1.7 0 0 1 1.3-2.8H17a5 5 0 0 0 5-5C22 6 17.5 2 12 2Z"/>',
  "voda":'<path d="M12 2.7C15.5 7 19 10.4 19 14a7 7 0 0 1-14 0c0-3.6 3.5-7 7-11.3Z"/>',
 }
 def ico(name, size=22, cls=""):
@@ -147,8 +148,9 @@ def header(active):
 
     return f'''<a class="skip" href="#obsah">Přeskočit na obsah</a>
 <header class="header"><div class="wrap header__in">
-  <a class="logo" href="index.html"><img src="assets/img/logo.svg" width="270" height="64" alt="{SKOLA["kratky"]}"></a>
+  <a class="logo" href="index.html"><img src="assets/img/logo.png" width="266" height="64" alt="{SKOLA["kratky"]}"></a>
   <nav class="nav" aria-label="Hlavní navigace">{nav}</nav>
+  <a class="header__tel" href="tel:{SKOLA["tel_link"]}">{ico("telefon",16)} {SKOLA["tel"]}</a>
   <a class="btn btn--primary btn--sm header__cta" href="zapis.html">{ico("zapis",16)} Zápis do MŠ</a>
   <button class="burger" type="button" aria-label="Otevřít menu" aria-expanded="false" data-menu-open><span></span></button>
 </div></header>
@@ -156,13 +158,14 @@ def header(active):
 <div class="mobile" id="mobilni-menu" hidden>
   <div class="wrap" style="padding:0">
     <div class="mobile__top">
-      <a class="logo" href="index.html"><img src="assets/img/logo.svg" width="270" height="64" alt="{SKOLA["kratky"]}"></a>
+      <a class="logo" href="index.html"><img src="assets/img/logo.png" width="266" height="64" alt="{SKOLA["kratky"]}"></a>
       <button class="mobile__close" type="button" aria-label="Zavřít menu" data-menu-close>&times;</button>
     </div>
     {mobile}
     <div class="mobile__cta">
       <a class="btn btn--primary" href="zapis.html">{ico("zapis",16)} Zápis do MŠ</a>
       <a class="btn btn--ghost" href="tel:{SKOLA["tel_link"]}">{ico("telefon",16)} {SKOLA["tel"]}</a>
+      <a class="btn btn--ghost" href="mailto:{SKOLA["mail"]}">{ico("zprava",16)} Napište nám</a>
     </div>
   </div>
 </div>'''
@@ -171,7 +174,7 @@ def footer():
     return f'''<footer class="footer"><div class="wrap">
   <div class="footer__grid">
     <div>
-      <div class="footer__logo"><img src="assets/img/logo-inverzni.svg" width="270" height="64" alt="{SKOLA["kratky"]}"></div>
+      <div class="footer__logo"><img src="assets/img/logo.png" width="266" height="64" alt="{SKOLA["kratky"]}"></div>
       <p class="footer__note">{SKOLA["nazev"]}<br>
       Zřizovatel: {SKOLA["zrizovatel"]}<br>
       IČ: {SKOLA["ico"]} &middot; datová schránka: {SKOLA["ds"]}</p>
@@ -230,7 +233,7 @@ def page(slug, title, description, body, active, jsonld=False):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{description}">
-<meta name="theme-color" content="#4A72AC">
+<meta name="theme-color" content="#245B63">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
@@ -238,11 +241,11 @@ def page(slug, title, description, body, active, jsonld=False):
 <meta property="og:image" content="https://{SKOLA["web"]}/assets/img/foto/budova.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:site_name" content="{SKOLA["kratky"]}">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/img/znacka.svg">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/znacka.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Montserrat:wght@500;600;700;800&display=swap">
 <link rel="stylesheet" href="assets/css/style.css">
 {JSONLD if jsonld else ""}
 </head>
@@ -409,23 +412,54 @@ HODNOTY = [
  ("Respekt k přírodě a okolnímu světu", "Učíme děti ekologickému myšlení, ohleduplnosti a aktivnímu vztahu k prostředí. Hudba a umění jim pomáhají vnímat svět citlivěji."),
 ]
 
-def index_page():
-    duvody = "".join(f'''<article class="card"><div class="card__icon">{ico(i)}</div>
-    <h3>{t}</h3><p>{p}</p></article>''' for i, t, p in DUVODY)
+ZALEZI = [
+ ("stit",   "Bezpečí a respekt",
+  "Každé dítě je u nás vítané. Respektujeme jeho tempo, potřeby i jedinečnost."),
+ ("jiskra", "Tvořivost a radost z objevování",
+  "Děti si hrají, zkoumají, kreslí, tvoří z hlíny a zpívají. Učí se přirozeně, hrou a zážitkem."),
+ ("list",   "Vztah k přírodě",
+  "Pečujeme o školní zahradu, pozorujeme přírodu a chodíme ven za každého počasí."),
+ ("lide",   "Spolupráce a samostatnost",
+  "Vedeme děti k tomu, aby si věřily, pomáhaly si a samy zvládaly, co už zvládnou."),
+ ("srdce",  "Pohyb a zdravý životní styl",
+  "Pohyb, vlastní kuchyně a pitný režim patří k našemu každému dni."),
+]
 
-    hodnoty = "".join(f'''<div class="value"><div class="value__num">{n+1}</div>
-    <div><h4>{t}</h4><p>{p}</p></div></div>''' for n, (t, p) in enumerate(HODNOTY))
+TRIDY = [
+ ("", "Zajíčci", "Třída A", "Seznamte se s učitelkami třídy."),
+ ("card--green", "Ježečci", "Třída B", "Seznamte se s učitelkami třídy."),
+ ("card--teal", "Veverky", "Třída C", "Seznamte se s učitelkami třídy."),
+]
+
+CINNOSTI = [
+ ("paleta", "Tvoření a keramika", "Kreslíme, malujeme a pracujeme s keramickou hlínou."),
+ ("srdce", "Pohyb a sport", "Cvičíme, běháme na zahradě a chodíme na výlety."),
+ ("list", "Příroda a zahrada", "Pěstujeme, pozorujeme a pečujeme o zahradu."),
+ ("nota", "Hudba", "Zpíváme, rytmizujeme a hrajeme na jednoduché nástroje."),
+ ("kostky", "Hry a pokusy", "Stavíme, zkoumáme a zkoušíme, jak věci fungují."),
+]
+
+def index_page():
+    zalezi = "".join(f'''<article class="card"><div class="card__icon">{ico(i)}</div>
+    <h3>{t}</h3><p>{p}</p></article>''' for i, t, p in ZALEZI)
+
+    tridy = "".join(f'''<a class="card {c}" href="skola.html#tym" style="text-decoration:none">
+    <span class="pillar__tag">{t}</span><h3>{n}</h3><p>{p}</p></a>''' for c, n, t, p in TRIDY)
+
+    cinnosti = "".join(f'''<article class="card card--plain"><div class="card__icon">{ico(i)}</div>
+    <h3>{t}</h3><p class="small muted">{p}</p></article>''' for i, t, p in CINNOSTI)
 
     body = f'''
 <section class="hero"><div class="wrap hero__in">
   <div class="hero__copy">
-    <span class="hero__motto">{ico("slunce",16)} Radostně objevujeme svět</span>
-    <h1>Mateřská škola, kde děti <em>objevují, tvoří a rostou</em></h1>
-    <p class="hero__text">Jsme moderní mateřská škola v srdci Žabovřesk. Nabízíme bezpečné prostředí,
-      respektující přístup, kvalitní vzdělávání a úzkou spolupráci s rodinou.</p>
+    <span class="hero__motto">{ico("slunce",16)} Místo, kde děti objevují svět po svém</span>
+    <h1>MŠ Žižkova Brno</h1>
+    <p class="hero__text">Malá trojtřídní školka v Žabovřeskách s vlastní kuchyní a zahradou.
+      Najdete tu aktuality, praktické informace pro rodiče i podrobnosti k zápisu.</p>
     <div class="hero__actions">
-      <a class="btn btn--primary" href="zapis.html">{ico("zapis",17)} Zápis do MŠ</a>
-      <a class="btn btn--ghost" href="skola.html">Poznejte naši školku {SIPKA}</a>
+      <a class="btn btn--primary" href="aktuality.html">{ico("megafon",17)} Aktuality</a>
+      <a class="btn btn--ghost" href="pro-rodice.html">Pro rodiče {SIPKA}</a>
+      <a class="btn btn--ghost" href="zapis.html">Zápis do MŠ {SIPKA}</a>
     </div>
     <a class="hero__link" href="assets/dokumenty/jidelnicek-aktualni.pdf" target="_blank" rel="noopener">
       <span class="hero__link-ico">{ico("jidlo",18)}</span>
@@ -445,81 +479,6 @@ def index_page():
     </div>
   </div>
 </div></section>
-
-<section class="quick"><div class="wrap"><div class="quick__grid">
-  <a class="quick__card" href="zapis.html">
-    <span class="quick__icon">{ico("zapis")}</span>
-    <h3>Zápis do MŠ</h3>
-    <p>Termíny, kritéria, potřebné dokumenty a postup krok za krokem.</p>
-    <span class="quick__more">Vše o zápisu {SIPKA}</span></a>
-  <a class="quick__card quick__card--green" href="pro-rodice.html#prazdniny">
-    <span class="quick__icon">{ico("slunce")}</span>
-    <h3>Provoz o prázdninách</h3>
-    <p>Aktuální informace o prázdninovém provozu, náhradních školkách a přihláškách.</p>
-    <span class="quick__more">Zobrazit informace {SIPKA}</span></a>
-  <a class="quick__card quick__card--sand" href="aktuality.html">
-    <span class="quick__icon">{ico("megafon")}</span>
-    <h3>Aktuality</h3>
-    <p>Důležitá oznámení, novinky ze tříd a přehled nadcházejících akcí.</p>
-    <span class="quick__more">Co je u nás nového {SIPKA}</span></a>
-</div></div></section>
-
-<section class="section section--pattern">
-  <div class="wrap">
-    {head("Proč právě my", "Proč zvolit MŠ Žižkova", "Pět věcí, na kterých u nás stojí každý den.", center=True)}
-    <div class="grid grid-3">{duvody}</div>
-  </div>
-</section>
-
-<section class="section section--mint">
-  <div class="wrap wrap--narrow center">
-    <p class="eyebrow eyebrow--center" style="justify-content:center">Naše filozofie</p>
-    <p style="font-family:var(--font-display);font-size:clamp(1.25rem,1.05rem + .9vw,1.72rem);line-height:1.45;color:var(--ink)">
-      „Naším cílem je vytvářet bezpečné, podnětné a laskavé prostředí, kde děti mohou svobodně objevovat svět,
-      rozvíjet své schopnosti a učit se hrou. Každé dítě vnímáme jako jedinečnou osobnost a provázíme ho
-      s respektem, odborností a porozuměním.“</p>
-    <p class="muted small" style="margin-top:1.4em">{SKOLA["reditelka"]}, ředitelka mateřské školy</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    {head("Zaměření", "Naše tři oblasti zaměření",
-          "Polytechnika, ekologie a umění se u nás přirozeně propojují. Děti staví, zkoumají, zpívají, tvoří a pečují o přírodu.", center=True)}
-    {pilire_html()}
-    <div class="center" style="margin-top:34px">
-      <a class="btn btn--ghost" href="vzdelavani.html#zamereni">Jak konkrétně učíme {SIPKA}</a>
-    </div>
-  </div>
-</section>
-
-<section class="section section--blue">
-  <div class="wrap">
-    <div class="grid grid-2" style="align-items:start">
-      <div>
-        {head("Výjimečnost", "Co dělá naši školku výjimečnou")}
-        <div class="stack">
-          <div class="card card--green"><div class="card__icon">{ico("strom")}</div>
-            <h3>Propojujeme techniku, přírodu a hudbu</h3>
-            <p>Děti staví z přírodních materiálů, zkoumají technické jevy venku, tvoří hudební nástroje
-               z přírodnin a objevují svět všemi smysly.</p></div>
-          <div class="card"><div class="card__icon">{ico("lupa")}</div>
-            <h3>Učení hrou, experimentem a zážitkem</h3>
-            <p>Děti měří, porovnávají, zkoumají, tvoří, zpívají, pozorují a přemýšlejí. Učí se přirozeně –
-               tak, jak je to pro předškolní věk nejlepší.</p></div>
-          <div class="card card--teal"><div class="card__icon">{ico("lide")}</div>
-            <h3>Projekty propojené s komunitou</h3>
-            <p>FAST VUT, Lipka, Otevřená zahrada, ZUŠ Veveří, divadlo Husa na provázku i ZŠ Sirotkova –
-               děti získávají zkušenosti z reálného světa.</p></div>
-        </div>
-      </div>
-      <div>
-        {head("Hodnoty", "Hodnoty, na kterých stojíme")}
-        <div class="stack-sm" style="display:grid;gap:18px">{hodnoty}</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="section">
   <div class="wrap">
@@ -549,29 +508,52 @@ def index_page():
   </div>
 </section>
 
-<section class="section section--sand section--tight">
+<section class="section section--sand">
   <div class="wrap">
-    {head("Praktické informace", "Nejčastěji hledáme", center=True)}
-    <div class="grid grid-4">
-      <a class="card card--plain" href="skola.html#provoz" style="text-decoration:none">
-        <div class="card__icon">{ico("hodiny")}</div><h3>Provoz a režim dne</h3>
-        <p class="small muted">Provozní doba {SKOLA["provoz"]}, organizace dne a adaptace nových dětí.</p></a>
-      <a class="card card--plain card--green" href="pro-rodice.html#stravovani" style="text-decoration:none">
-        <div class="card__icon">{ico("jidlo")}</div><h3>Stravování a jídelníček</h3>
-        <p class="small muted">Vlastní kuchyně, čerstvé suroviny a celodenní pitný režim.</p></a>
-      <a class="card card--plain card--teal" href="skola.html#nase-ms" style="text-decoration:none">
-        <div class="card__icon">{ico("mobil")}</div><h3>Aplikace Naše MŠ</h3>
-        <p class="small muted">Omluvenky, platby, přihlašování na akce a zprávy ze tříd na jednom místě.</p></a>
-      <a class="card card--plain" href="pro-rodice.html#dokumenty" style="text-decoration:none">
-        <div class="card__icon">{ico("dokument")}</div><h3>Dokumenty ke stažení</h3>
-        <p class="small muted">Školní vzdělávací program, školní řád, řád školní jídelny a další.</p></a>
+    <div class="grid grid-2" style="align-items:center">
+      <div>
+        {head("O školce", "Malá školka v Žabovřeskách")}
+        <p>Chodí k nám {SKOLA["kapacita"]} dětí ve třech třídách. Máme vlastní kuchyni, školní zahradu
+           a stabilní tým učitelek, které děti dobře znají. Rodiče s námi komunikují přes aplikaci Naše MŠ.</p>
+        <p>Děti si u nás hrají, tvoří, sportují a poznávají přírodu. Výtvarné a keramické činnosti
+           jsou v naší školce doma už dlouho.</p>
+        <p style="margin-top:20px"><a class="btn btn--ghost" href="skola.html">Více o naší škole {SIPKA}</a></p>
+      </div>
+      <div class="hero__photo">{foto("budova.jpg", "Budova mateřské školy Žižkova", 960, 720)}</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {head("Na čem nám záleží", "Na čem nám záleží", "Pět věcí, které jsou pro nás v každodenním provozu důležité.", center=True)}
+    <div class="grid grid-3">{zalezi}</div>
+    <div class="center" style="margin-top:30px">
+      <a class="btn btn--ghost" href="vzdelavani.html">Jak u nás vzděláváme {SIPKA}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--mint">
+  <div class="wrap">
+    {head("Naše třídy", "Zajíčci, Ježečci a Veverky", "Do školky chodí děti ve třech třídách.", center=True)}
+    <div class="grid grid-3">{tridy}</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {head("Život u nás", "Co děti u nás dělají", center=True)}
+    <div class="grid grid-3">{cinnosti}</div>
+    <div class="center" style="margin-top:30px">
+      <a class="btn btn--ghost" href="fotogalerie.html">Fotogalerie {SIPKA}</a>
     </div>
   </div>
 </section>
 
 <section class="section section--mint" id="vykresy" style="padding-block:clamp(38px,4.4vw,62px)">
   <div class="wrap">
-    {head("Očima dětí", "Takhle naši školku vidí děti",
+    {head("Očima dětí", "Jak naši školku vidí děti",
           "Žlutá budova, modrá okna a sluníčko nad ní. Výkresy, které vznikly ve třídách, "
           "jsou pro nás tou nejlepší vizitkou.", center=True)}
     {vykresy_mrizka(["01","04","05","08"], male=True)}
@@ -581,14 +563,60 @@ def index_page():
   </div>
 </section>
 
-{cta("Přijďte se k nám podívat",
-     "Zápis do mateřské školy probíhá každý rok na jaře. Najdete u nás termíny, kritéria i seznam dokumentů – a rádi vám odpovíme na cokoli dalšího.",
-     "Vše o zápisu", "zapis.html")}
+<section class="section section--sand section--tight">
+  <div class="wrap">
+    {head("Pro rodiče", "Nejčastěji hledáme", center=True)}
+    <div class="grid grid-3">
+      <a class="card card--plain" href="skola.html#provoz" style="text-decoration:none">
+        <div class="card__icon">{ico("hodiny")}</div><h3>Provoz školy</h3>
+        <p class="small muted">Provozní doba {SKOLA["provoz"]}, režim dne a adaptace nových dětí.</p></a>
+      <a class="card card--plain card--green" href="pro-rodice.html#stravovani" style="text-decoration:none">
+        <div class="card__icon">{ico("jidlo")}</div><h3>Stravování</h3>
+        <p class="small muted">Vlastní kuchyně, jídelníček a celodenní pitný režim.</p></a>
+      <a class="card card--plain card--teal" href="skola.html#nase-ms" style="text-decoration:none">
+        <div class="card__icon">{ico("mobil")}</div><h3>Aplikace Naše MŠ</h3>
+        <p class="small muted">Omluvenky, platby a zprávy ze tříd na jednom místě.</p></a>
+      <a class="card card--plain" href="pro-rodice.html#dokumenty" style="text-decoration:none">
+        <div class="card__icon">{ico("dokument")}</div><h3>Dokumenty</h3>
+        <p class="small muted">Školní vzdělávací program, školní řád, řád školní jídelny a další.</p></a>
+      <a class="card card--plain card--green" href="pro-rodice.html#prazdniny" style="text-decoration:none">
+        <div class="card__icon">{ico("slunce")}</div><h3>Prázdniny</h3>
+        <p class="small muted">Provoz o prázdninách a náhradní mateřské školy.</p></a>
+      <a class="card card--plain card--teal" href="zapis.html" style="text-decoration:none">
+        <div class="card__icon">{ico("zapis")}</div><h3>Zápis</h3>
+        <p class="small muted">Termíny, kritéria, potřebné dokumenty a postup krok za krokem.</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="kontakt">
+  <div class="wrap">
+    {head("Kontakt", "Kde nás najdete")}
+    <div class="kontakt-grid">
+      <div class="kontakt-info">
+        <ul class="footer__list kontakt-list">
+          <li>{ico("pin",20)} <span>{SKOLA["nazev"]}<br>{SKOLA["ulice"]}, {SKOLA["mesto"]}</span></li>
+          <li>{ico("telefon",20)} <a href="tel:{SKOLA["tel_link"]}">{SKOLA["tel"]}</a></li>
+          <li>{ico("mail",20)} <a href="mailto:{SKOLA["mail"]}">{SKOLA["mail"]}</a></li>
+          <li>{ico("hodiny",20)} <span>Pondělí až pátek {SKOLA["provoz"]}</span></li>
+        </ul>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="mailto:{SKOLA["mail"]}">{ico("zprava",17)} Napište nám</a>
+          <a class="btn btn--ghost" href="kontakty.html">Všechny kontakty {SIPKA}</a>
+        </div>
+      </div>
+      <div class="map">
+        <iframe title="Mapa – MŠ Žižkova" loading="lazy"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=16.5836,49.2064,16.5916,49.2104&amp;layer=mapnik&amp;marker={SKOLA["lat"]},{SKOLA["lon"]}"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
 '''
     return page("index.html",
-        f'{SKOLA["kratky"]} – mateřská škola, kde děti objevují, tvoří a rostou',
-        "Moderní mateřská škola v Brně-Žabovřeskách. Bezpečné prostředí, respektující přístup, "
-        "polytechnika, ekologie a hudba. Informace o zápisu, provozu i stravování.",
+        "Mateřská škola Žižkova Brno – MŠ Žižkova 57",
+        "Mateřská škola Žižkova 57 v Brně-Žabovřeskách. Aktuality, provoz, stravování, "
+        "dokumenty ke stažení a informace o zápisu pro rodiče.",
         body, "index.html", jsonld=True)
 
 # ═════════════════════════════════════════════════════════════

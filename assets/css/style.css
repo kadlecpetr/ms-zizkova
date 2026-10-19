@@ -1,44 +1,50 @@
 /* =========================================================
    MŠ Žižkova, Brno — design system
-   Paleta: modrá / modrošedá  ×  zelená / mint / eukalypt
+   Paleta nové identity: petrolejová #245B63, žlutá #F6D66D, meruňková #F29A7A,
+   modrá #82B9D1, zelená #9DBA7A, levandulová #C9B9D9, krémová #FFF9EF
+   Písma: Montserrat (nadpisy), Nunito (texty)
    ========================================================= */
 
 :root{
   /* --- barvy --- */
-  --blue-900:#1E3350;
-  --blue-700:#2F5580;
-  --blue-600:#4A72AC;
-  --blue-400:#8FB0D4;
-  --blue-200:#D6E4F2;
-  --blue-100:#EAF1F8;
+  --blue-900:#17464E;
+  --blue-700:#245B63;
+  --blue-600:#2D6F79;
+  --blue-400:#82B9D1;
+  --blue-200:#CFE5EE;
+  --blue-100:#E8F3F7;
 
-  --teal-600:#4E8E9B;
-  --teal-200:#CDE5E6;
+  --teal-600:#82B9D1;
+  --teal-200:#D3E8F1;
 
-  --euca-700:#4F7C68;
-  --euca-600:#6E9C87;
-  --euca-400:#A9CDBB;
-  --mint-200:#D5EADF;
-  --mint-100:#EAF5EF;
+  --euca-700:#587A3D;
+  --euca-600:#9DBA7A;
+  --euca-400:#C5D8AE;
+  --mint-200:#E1EBD3;
+  --mint-100:#EEF4E4;
 
-  --sand-100:#F3EFE7;
-  --paper:#FCFCFA;
+  --sand-100:#FFF3D6;
+  --paper:#FFF9EF;
   --white:#FFFFFF;
 
-  --ink:#1E3350;
-  --body:#41525F;
-  --muted:#6E7F8B;
-  --line:#E3E9ED;
+  --ink:#245B63;
+  --body:#3A5559;
+  --muted:#5B7276;
+  --line:#EDE4D0;
 
   /* --- typografie --- */
-  --font-display:"Outfit","Segoe UI",system-ui,sans-serif;
-  --font-body:"Inter","Segoe UI",system-ui,sans-serif;
+  --font-display:"Montserrat","Segoe UI",system-ui,sans-serif;
+  --font-body:"Nunito","Segoe UI",system-ui,sans-serif;
 
   /* --- tvary --- */
   --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:32px;
-  --shadow-sm:0 1px 2px rgba(30,51,80,.06), 0 2px 8px rgba(30,51,80,.05);
-  --shadow-md:0 2px 6px rgba(30,51,80,.06), 0 12px 32px rgba(30,51,80,.08);
-  --shadow-lg:0 8px 20px rgba(30,51,80,.08), 0 28px 60px rgba(30,51,80,.10);
+  --shadow-sm:0 1px 2px rgba(36,91,99,.06), 0 2px 8px rgba(36,91,99,.05);
+  --shadow-md:0 2px 6px rgba(36,91,99,.06), 0 12px 32px rgba(36,91,99,.08);
+  --shadow-lg:0 8px 20px rgba(36,91,99,.08), 0 28px 60px rgba(36,91,99,.10);
+
+  --sun:#F6D66D;
+  --coral:#F29A7A;
+  --lav:#C9B9D9;
 
   --wrap:1160px;
   --gut:clamp(20px,5vw,48px);
@@ -130,8 +136,8 @@ p:last-child{margin-bottom:0}
   cursor:pointer;transition:.18s ease;text-decoration:none;line-height:1
 }
 .btn:hover{text-decoration:none;transform:translateY(-1px)}
-.btn--primary{background:var(--blue-600);color:#fff;box-shadow:0 4px 14px rgba(74,114,172,.28)}
-.btn--primary:hover{background:var(--blue-700);box-shadow:0 6px 20px rgba(74,114,172,.34)}
+.btn--primary{background:var(--blue-600);color:#fff;box-shadow:0 4px 14px rgba(246,214,109,.28)}
+.btn--primary:hover{background:var(--blue-700);box-shadow:0 6px 20px rgba(246,214,109,.34)}
 .btn--green{background:var(--euca-600);color:#fff;box-shadow:0 4px 14px rgba(110,156,135,.28)}
 .btn--green:hover{background:var(--euca-700)}
 .btn--ghost{border-color:var(--blue-200);color:var(--blue-700);background:#fff}
@@ -142,7 +148,7 @@ p:last-child{margin-bottom:0}
 
 /* ---------- hlavička ---------- */
 .header{
-  position:sticky;top:0;z-index:60;background:rgba(252,252,250,.92);
+  position:sticky;top:0;z-index:60;background:rgba(255,249,239,.92);
   backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)
 }
 .header__in{display:flex;align-items:center;gap:24px;min-height:76px}
@@ -221,7 +227,7 @@ p:last-child{margin-bottom:0}
 }
 .hero__motto{
   display:inline-flex;align-items:center;gap:.6em;background:#fff;
-  border:1px solid var(--mint-200);box-shadow:0 2px 10px rgba(30,51,80,.07);color:var(--euca-700);
+  border:1px solid var(--mint-200);box-shadow:0 2px 10px rgba(36,91,99,.07);color:var(--euca-700);
   font-family:var(--font-display);font-weight:600;font-size:.87rem;letter-spacing:.04em;
   padding:.5em 1em;border-radius:999px;margin-bottom:1.1em
 }
@@ -240,7 +246,7 @@ p:last-child{margin-bottom:0}
 .hero__link-ico{
   width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;
   background:#fff;border:1px solid var(--mint-200);color:var(--euca-700);
-  box-shadow:0 2px 8px rgba(30,51,80,.07);transition:.18s
+  box-shadow:0 2px 8px rgba(36,91,99,.07);transition:.18s
 }
 .hero__link-title{display:inline-flex;align-items:center;gap:.45em}
 .hero__link-note{
@@ -398,7 +404,7 @@ p:last-child{margin-bottom:0}
 .crumbs a{color:var(--muted)}
 
 /* podnavigace sekce */
-.subnav{position:sticky;top:76px;z-index:50;background:rgba(252,252,250,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.subnav{position:sticky;top:76px;z-index:50;background:rgba(255,249,239,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .subnav__in{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
 .subnav__in::-webkit-scrollbar{display:none}
 .subnav a{
@@ -565,3 +571,64 @@ p:last-child{margin-bottom:0}
   body{background:#fff}
   .section{padding:18px 0}
 }
+
+
+/* =========================================================
+   NOVÁ IDENTITA – žluté hlavní tlačítko, modré vedlejší, organický tvar fotky
+   ========================================================= */
+h1,h2,h3,h4{font-weight:700;letter-spacing:-.01em}
+h1{font-size:clamp(1.95rem,1.2rem + 2.6vw,3rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,1.1rem + 1.5vw,2.2rem)}
+
+.btn--primary{background:var(--sun);color:#17464E;box-shadow:0 4px 14px rgba(246,214,109,.5)}
+.btn--primary:hover{background:#F2CB4A;box-shadow:0 6px 20px rgba(246,214,109,.6)}
+.btn--ghost{background:var(--blue-400);border-color:transparent;color:#17464E}
+.btn--ghost:hover{background:#6FAAC6;border-color:transparent}
+.cta .btn{background:var(--sun);color:#17464E}
+.cta .btn:hover{background:#F2CB4A}
+.subnav a.is-active{background:var(--blue-700)}
+.hero__link,.eyebrow{color:var(--blue-700)}
+.eyebrow::before{background:var(--sun)}
+
+.hero{background:linear-gradient(165deg,#FFF9EF 0%,#FFF3D6 100%)}
+.hero::before{opacity:.12}
+.hero__copy::before{display:none}
+.hero__motto{border-color:var(--sun);color:var(--blue-700)}
+.hero h1 em{color:var(--coral)}
+.hero__text{color:var(--body)}
+.hero__photo{border-radius:62% 38% 55% 45% / 52% 58% 42% 48%;background:var(--blue-200)}
+.pagehead{background:linear-gradient(160deg,#FFF9EF,#FFF3D6 80%);border-bottom-color:var(--line)}
+.section--blue{background:linear-gradient(180deg,var(--blue-100),#F4FAFC)}
+.section--mint{background:linear-gradient(180deg,var(--mint-100),#F8FBF3)}
+
+.logo img{height:60px;width:auto}
+.header__tel{
+  display:none;align-items:center;gap:.45em;flex:none;font-family:var(--font-display);
+  font-weight:700;font-size:.92rem;color:var(--blue-700);white-space:nowrap
+}
+.header__tel:hover{text-decoration:none;color:var(--blue-900)}
+@media (min-width:1380px){.header__tel{display:inline-flex}}
+
+.card--green .card__icon{color:var(--euca-700)}
+.card--teal .card__icon{background:var(--teal-200);color:var(--blue-700)}
+.pillar--teal .pillar__tag{color:var(--blue-700)}
+.card .pillar__tag{background:var(--blue-100);color:var(--blue-700)}
+.card--green .pillar__tag{background:var(--mint-100);color:var(--euca-700)}
+.card--teal .pillar__tag{background:var(--teal-200);color:var(--blue-700)}
+
+/* kontakt na úvodní stránce */
+.kontakt-grid{display:grid;gap:clamp(22px,3vw,40px);align-items:stretch;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+.kontakt-list{margin-bottom:1.6em}
+.kontakt-list li{display:flex;gap:14px;align-items:flex-start}
+.kontakt-list svg{flex:none;color:var(--blue-700);margin-top:.15em}
+.kontakt-list a{color:var(--ink);font-weight:600}
+@media (max-width:900px){.kontakt-grid{grid-template-columns:1fr}}
+
+/* světlá patička s lehce zvlněným okrajem */
+.footer{background:#E1EFF3;color:var(--body);border-radius:56px 56px 0 0 / 34px 34px 0 0}
+.footer a{color:var(--blue-700)}
+.footer a:hover{color:var(--blue-900)}
+.footer h4{color:var(--blue-700)}
+.footer__logo img{height:56px;margin-bottom:16px}
+.footer__bottom{border-top-color:rgba(36,91,99,.16)}
+.footer__list svg{color:var(--blue-700)}

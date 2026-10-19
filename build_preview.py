@@ -100,7 +100,7 @@ def main():
     # --- hlavička a patička (společné pro všechny stránky) ---
     hlavicka = re.search(r'(<a class="skip".*?</div>\s*)(?=<main)', index, re.S).group(1)
     paticka  = re.search(r'(<footer class="footer">.*?</footer>)', index, re.S).group(1)
-    for cesta, soubor in [("assets/img/logo.svg", "logo"), ("assets/img/logo-inverzni.svg", "logo-inverzni")]:
+    for cesta, soubor in [("assets/img/logo.png", "logo")]:
         uri = data_uri(cesta)
         hlavicka = hlavicka.replace(f'src="{cesta}"', f'src="{uri}"')
         paticka  = paticka.replace(f'src="{cesta}"', f'src="{uri}"')
@@ -217,7 +217,7 @@ def main():
     html = f'''<title>MŠ Žižkova, Brno</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Montserrat:wght@500;600;700;800&display=swap">
 <style>
 {css}
 {doplnkove_css}
