@@ -286,7 +286,8 @@ def header(active):
 </div>'''
 
 def footer():
-    return f'''<footer class="footer"><div class="wrap">
+    return f'''<div class="mobbar"><a href="tel:{SKOLA["tel_link"]}">{ico("telefon",18)} Zavolat</a><a href="zapis.html">{ico("zapis",18)} Zápis do MŠ</a></div>
+<footer class="footer"><div class="wrap">
   <div class="footer__grid">
     <div>
       <div class="footer__logo"><img src="assets/img/logo.png" width="266" height="64" alt="{SKOLA["kratky"]}"></div>
@@ -570,6 +571,7 @@ def index_page():
 <section class="hero"><div class="wrap hero__in">
   <div class="hero__copy">
     <span class="hero__motto">{ico("slunce",16)} Místo, kde děti objevují svět po svém</span>
+    <span class="stav" data-stav data-od="6.30" data-do="16.30" hidden></span>
     <h1>MŠ Žižkova Brno</h1>
     <p class="hero__text">Malá trojtřídní školka v Žabovřeskách s vlastní kuchyní a zahradou.
       Najdete tu aktuality, praktické informace pro rodiče i podrobnosti k zápisu.</p>
@@ -701,11 +703,11 @@ def index_page():
         <ul class="footer__list kontakt-list">
           <li>{ico("pin",20)} <span>{SKOLA["nazev"]}<br>{SKOLA["ulice"]}, {SKOLA["mesto"]}</span></li>
           <li>{ico("telefon",20)} <a href="tel:{SKOLA["tel_link"]}">{SKOLA["tel"]}</a></li>
-          <li>{ico("mail",20)} <a href="mailto:{SKOLA["mail"]}">{SKOLA["mail"]}</a></li>
+          <li>{ico("mail",20)} <a href="mailto:{SKOLA["mail"]}">{SKOLA["mail"]}</a> <button type="button" class="kopirovat" data-kopirovat="{SKOLA["mail"]}">Kopírovat</button></li>
           <li>{ico("hodiny",20)} <span>Pondělí až pátek {SKOLA["provoz"]}</span></li>
         </ul>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="mailto:{SKOLA["mail"]}">{ico("zprava",17)} Napište nám</a>
+          <a class="btn btn--primary" href="kontakty.html#napiste">{ico("zprava",17)} Napište nám</a>
           <a class="btn btn--ghost" href="kontakty.html">Všechny kontakty {SIPKA}</a>
         </div>
       </div>
@@ -1699,13 +1701,38 @@ def fotogalerie_page():
 # ═════════════════════════════════════════════════════════════
 #  KONTAKTY
 # ═════════════════════════════════════════════════════════════
+
+def formular():
+    """Kontaktní formulář bez serveru: po odeslání otevře e-mailový program s připravenou zprávou."""
+    return f'''<form class="form" data-mailto="{SKOLA["mail"]}" novalidate>
+  <div class="form__row">
+    <div><label for="f-jmeno">Jméno</label>
+      <input id="f-jmeno" name="jmeno" type="text" autocomplete="name" required></div>
+    <div><label for="f-mail">E-mail</label>
+      <input id="f-mail" name="email" type="email" autocomplete="email" required></div>
+  </div>
+  <label for="f-tema">Čeho se dotaz týká?</label>
+  <select id="f-tema" name="tema">
+    <option>Zápis do MŠ</option><option>Provoz a docházka</option><option>Stravování</option>
+    <option>Omluvení dítěte</option><option>Jiné</option>
+  </select>
+  <label for="f-zprava">Zpráva</label>
+  <textarea id="f-zprava" name="zprava" rows="5" required></textarea>
+  <label class="form__check"><input type="checkbox" name="souhlas" required>
+    <span>Souhlasím se zpracováním osobních údajů za účelem vyřízení dotazu
+    (<a href="assets/dokumenty/gdpr-informacni-memorandum.pdf" target="_blank" rel="noopener">informační memorandum</a>).</span></label>
+  <button class="btn btn--primary" type="submit">{ico("zprava",17)} Připravit e-mail</button>
+  <p class="form__stav" role="status" aria-live="polite"></p>
+  <p class="small muted">Formulář otevře váš e-mailový program s hotovou zprávou. Nic se neukládá na webu.</p>
+</form>'''
+
 def kontakty_page():
     lat, lon = SKOLA["lat"], SKOLA["lon"]
     bbox = f"{float(lon)-0.006},{float(lat)-0.003},{float(lon)+0.006},{float(lat)+0.003}"
     body = pagehead("Kontakty",
         "Rádi vám odpovíme na cokoli kolem docházky, zápisu i stravování. Nejrychleji nás zastihnete telefonicky.",
         [("Domů","index.html"),("Kontakty",None)]) + subnav([
-        ("Kontaktní údaje","udaje"),("Jak se k nám dostanete","doprava"),
+        ("Kontaktní údaje","udaje"),("Napište nám","napiste"),("Jak se k nám dostanete","doprava"),
         ("Povinně zveřejňované informace","povinne")]) + f'''
 
 <section class="section" id="udaje">
@@ -1744,6 +1771,13 @@ def kontakty_page():
         <p class="small muted" style="margin-top:20px">Zřizovatel: {SKOLA["zrizovatel"]}</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section section--sand" id="napiste">
+  <div class="wrap wrap--narrow">
+    {head("Napište nám", "Máte dotaz?", "Vyplňte krátký formulář, my vám odpovíme co nejdříve.")}
+    {formular()}
   </div>
 </section>
 
@@ -1807,57 +1841,8 @@ def kontakty_page():
 # ═════════════════════════════════════════════════════════════
 #  DOPROVODNÉ SOUBORY
 # ═════════════════════════════════════════════════════════════
-JS = r'''/* MŠ Žižkova – drobná interaktivita */
-(function () {
-  "use strict";
-
-  /* --- mobilní menu --- */
-  var menu  = document.getElementById("mobilni-menu");
-  var open  = document.querySelector("[data-menu-open]");
-  var close = document.querySelector("[data-menu-close]");
-
-  function setMenu(show) {
-    if (!menu) return;
-    menu.hidden = !show;
-    menu.classList.toggle("is-open", show);
-    if (open) open.setAttribute("aria-expanded", String(show));
-    document.body.style.overflow = show ? "hidden" : "";
-  }
-  if (open)  open.addEventListener("click", function () { setMenu(true); });
-  if (close) close.addEventListener("click", function () { setMenu(false); });
-  if (menu)  menu.addEventListener("click", function (e) {
-    if (e.target.tagName === "A") setMenu(false);
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") setMenu(false);
-  });
-
-  /* --- zvýraznění aktivní položky v podnavigaci --- */
-  var subnav = document.querySelector(".subnav");
-  if (subnav) {
-    var links = Array.prototype.slice.call(subnav.querySelectorAll("a"));
-    var cile  = links.map(function (a) {
-      return document.getElementById(a.getAttribute("href").slice(1));
-    });
-    var tik = false;
-    function oznac() {
-      tik = false;
-      var y = window.scrollY + 160, akt = 0;
-      cile.forEach(function (el, i) { if (el && el.offsetTop <= y) akt = i; });
-      links.forEach(function (a, i) { a.classList.toggle("is-active", i === akt); });
-    }
-    window.addEventListener("scroll", function () {
-      if (!tik) { tik = true; window.requestAnimationFrame(oznac); }
-    }, { passive: true });
-    oznac();
-  }
-
-  /* --- rok v patičce --- */
-  Array.prototype.forEach.call(document.querySelectorAll("[data-rok]"), function (el) {
-    el.textContent = new Date().getFullYear();
-  });
-})();
-'''
+with open(os.path.join(ROOT, "podklady", "main.js"), encoding="utf-8") as _f:
+    JS = _f.read()
 
 def assets():
     with open(os.path.join(ROOT, "assets/js/main.js"), "w", encoding="utf-8") as f:
