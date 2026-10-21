@@ -9,7 +9,7 @@ Výstup:    statické .html soubory v kořeni projektu.
 Texty se upravují v tomto souboru (sekce OBSAH níže), společná hlavička
 a patička jsou na jednom místě – změna se propíše do všech stránek.
 """
-import os, datetime
+import os, datetime, json, hashlib, re, html as _html
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -124,6 +124,121 @@ NAV = [
     ("Povinně zveřejňované informace", "kontakty.html#povinne"),
  ]),
 ]
+
+
+# ─────────────────────────────────────────────────────────────
+#  OBSAH Z EDITORU (content.json)
+#  Editor v admin/ ukládá úpravy do content.json:
+#    texts  – {klíč textu: nové HTML}   (klíč = hash původního textu, viz upravit_obsah)
+#    images – {klíč obrázku: nová cesta}
+#    alts   – {klíč obrázku: nový popisek}
+#    novinky – [{d, t, p}, …]            (seznam aktualit; chybí = výchozí z tohoto souboru)
+#  Build úpravy aplikuje na vygenerované stránky, takže web zůstává statický.
+# ─────────────────────────────────────────────────────────────
+def _nacti_obsah():
+    cesta = os.path.join(ROOT, "content.json")
+    try:
+        with open(cesta, encoding="utf-8") as f:
+            d = json.load(f)
+        return d if isinstance(d, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+CONTENT = _nacti_obsah()
+
+def _norm(t):
+    return re.sub(r"\s+", " ", t).strip()
+
+def _klic(t):
+    return hashlib.sha1(_norm(t).encode("utf-8")).hexdigest()[:10]
+
+_POVOLENE_ZNACKY = {"strong": "strong", "b": "strong", "em": "em", "i": "em", "br": "br", "small": "small"}
+
+def uklid_html(h):
+    """Z textu z editoru nechá jen tučné, kurzívu, zalomení a odkazy (http, https, mailto, tel, #, relativní)."""
+    otevreny = [False]
+    def znacka(m):
+        celé, zavirani, jmeno = m.group(0), m.group(1), m.group(2).lower()
+        if jmeno in _POVOLENE_ZNACKY:
+            t = _POVOLENE_ZNACKY[jmeno]
+            return "<br>" if t == "br" else (f"</{t}>" if zavirani else f"<{t}>")
+        if jmeno == "a":
+            if zavirani:
+                if otevreny[0]:
+                    otevreny[0] = False
+                    return "</a>"
+                return ""
+            href = re.search(r'href\s*=\s*(?:"([^"]*)"|\'([^\']*)\')', celé)
+            url = ((href.group(1) or href.group(2)) if href else "").strip()
+            if re.match(r"^(https?:|mailto:|tel:|#|[\w./-]+(\.html)?(#[\w-]*)?$)", url, re.I):
+                otevreny[0] = True
+                return f'<a href="{_html.escape(_html.unescape(url), quote=True)}">'
+            return ""
+        return ""
+    h = re.sub(r"<!--.*?-->", "", h, flags=re.S)
+    return re.sub(r"<(/?)([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>", znacka, h)
+
+_INLINE = r"(?:/?(?:strong|em|b|i|br|a|small|abbr|mark|time)\b[^>]*)"
+_TEXT_TAG = re.compile(
+    r"<(h[1-4]|p|li|figcaption|td|th|dt|dd|div|span)((?:\s[^>]*)?)>"
+    r"((?:[^<]|<" + _INLINE + r">)+?)</\1>", re.S)
+_IMG_TAG = re.compile(r"<img\b([^>]*?)(\s*/?)>", re.S)
+
+def upravit_obsah(page_html):
+    """Označí upravitelné texty a obrázky (data-ek / data-ei) a použije změny z content.json."""
+    texty = CONTENT.get("texts", {}) or {}
+    obrazky = CONTENT.get("images", {}) or {}
+    popisky = CONTENT.get("alts", {}) or {}
+
+    zacatek = page_html.index("<body>")
+    hlava, telo = page_html[:zacatek], page_html[zacatek:]
+
+    def text(m):
+        tag, atr, vnitrek = m.group(1), m.group(2), m.group(3)
+        if "data-noedit" in atr or "data-ek" in atr:
+            return m.group(0)
+        if tag == "div" and "acc__body" not in atr:   # holé <div> bývají prvky menu a rozvržení
+            return m.group(0)
+        cisty = re.sub(r"<[^>]+>", "", vnitrek)
+        if not re.search(r"[^\W\d_]", cisty):
+            return m.group(0)
+        k = _klic(vnitrek)
+        if k in texty:
+            vnitrek = uklid_html(texty[k])
+        return f'<{tag}{atr} data-ek="{k}">{vnitrek}</{tag}>'
+
+    def obrazek(m):
+        atr, konec = m.group(1), m.group(2)
+        src = re.search(r'\ssrc="([^"]*)"', atr)
+        if not src or src.group(1).startswith("data:") or "data-noedit" in atr:
+            return m.group(0)
+        k = _klic(src.group(1))
+        if k in obrazky and re.match(r"^assets/[\w./-]+$", obrazky[k]):
+            atr = atr.replace(f'src="{src.group(1)}"', f'src="{obrazky[k]}"')
+        if k in popisky:
+            novy = _html.escape(str(popisky[k]), quote=True)
+            if re.search(r'\salt="[^"]*"', atr):
+                atr = re.sub(r'\salt="[^"]*"', lambda _: f' alt="{novy}"', atr, count=1)
+            else:
+                atr += f' alt="{novy}"'
+        return f'<img{atr} data-ei="{k}"{konec}>'
+
+    # skripty a styly se nesmí číst jako text stránky
+    casti = re.split(r"(<script\b.*?</script>|<style\b.*?</style>)", telo, flags=re.S)
+    for i in range(0, len(casti), 2):
+        casti[i] = _IMG_TAG.sub(obrazek, _TEXT_TAG.sub(text, casti[i]))
+    return hlava + "".join(casti)
+
+def novinka_html(d, t, p, domu=False):
+    """Jedna aktualita. Je mimo inline úpravy (data-noedit) – spravuje se v editoru v záložce Aktuality."""
+    d, t = _html.escape(str(d)), _html.escape(str(t))
+    p = uklid_html(str(p))
+    if domu:
+        return (f'<a class="post" href="aktuality.html#novinky"><span class="post__date" data-noedit>{d}</span>'
+                f'<h3 data-noedit>{t}</h3><p data-noedit>{p}</p></a>')
+    return (f'<article class="post"><span class="post__date" data-noedit>{d}</span>'
+            f'<h3 data-noedit>{t}</h3><p data-noedit>{p}</p></article>')
+
 
 def header(active):
     items = []
@@ -259,6 +374,7 @@ def page(slug, title, description, body, active, jsonld=False):
 </body>
 </html>
 '''
+    html = upravit_obsah(html)
     with open(os.path.join(ROOT, slug), "w", encoding="utf-8") as f:
         f.write(html)
     return slug
@@ -440,6 +556,7 @@ CINNOSTI = [
 ]
 
 def index_page():
+    novinky_domu = "".join(novinka_html(d, t, p, domu=True) for d, t, p in NOVINKY[:3])
     zalezi = "".join(f'''<article class="card"><div class="card__icon">{ico(i)}</div>
     <h3>{t}</h3><p>{p}</p></article>''' for i, t, p in ZALEZI)
 
@@ -489,20 +606,7 @@ def index_page():
         <div><h3>Provozní doba od 1. 9. 2026</h3>
         <p>Mateřská škola je v provozu každý všední den od 6.30 do 16.30 hodin.</p></div>
       </div>
-      <div class="grid grid-3">
-        <a class="post" href="aktuality.html#novinky">
-          <span class="post__date">28. 8. 2026</span>
-          <h3>Provoz MŠ od 1. 9. 2026</h3>
-          <p>Od začátku školního roku je školka otevřená od 6.30 do 16.30 hodin.</p></a>
-        <a class="post" href="aktuality.html#novinky">
-          <span class="post__date">1. 9. 2026</span>
-          <h3>Změna telefonního čísla</h3>
-          <p>Nové telefonní číslo mateřské školy je {SKOLA["tel"]}.</p></a>
-        <a class="post" href="pro-rodice.html#prazdniny">
-          <span class="post__date">Prázdninový provoz</span>
-          <h3>Provoz o prázdninách</h3>
-          <p>Přehled prázdninového a náhradního provozu mateřských škol v Žabovřeskách.</p></a>
-      </div>
+      <div class="grid grid-3" data-novinky="3">{novinky_domu}</div>
     </div>
     <div class="center" style="margin-top:30px"><a class="btn btn--ghost" href="aktuality.html">Všechny aktuality {SIPKA}</a></div>
   </div>
@@ -1504,12 +1608,14 @@ NOVINKY = [
   "v sekci pro rodiče."),
 ]
 
+if isinstance(CONTENT.get("novinky"), list):
+    NOVINKY = [(n.get("d", ""), n.get("t", ""), n.get("p", "")) for n in CONTENT["novinky"] if isinstance(n, dict)]
+
 def aktuality_page():
     dulezite = "".join(f'''<div class="alert{' alert--green' if g else ''}">
       <span class="alert__ico">{ico(i,20)}</span>
       <div><h3>{t}</h3><p>{p}</p></div></div>''' for i, g, t, p in DULEZITE)
-    novinky = "".join(f'''<article class="post">
-      <span class="post__date">{d}</span><h3>{t}</h3><p>{p}</p></article>''' for d, t, p in NOVINKY)
+    novinky = "".join(novinka_html(d, t, p) for d, t, p in NOVINKY)
 
     body = pagehead("Aktuality",
         "Důležitá oznámení máme vždy nahoře, pod nimi najdete novinky a akce chronologicky. "
@@ -1528,7 +1634,7 @@ def aktuality_page():
   <div class="wrap">
     {head("Chronologicky", "Novinky a akce",
       "Výlety, divadla, dílny, focení a projekty – co se u nás děje.")}
-    <div class="grid grid-3">{novinky}</div>
+    <div class="grid grid-3" data-novinky="all">{novinky}</div>
     <div class="alert" style="margin-top:30px">
       <span class="alert__ico">{ico("mobil",20)}</span>
       <div><h3>Podrobnosti k akcím najdete v aplikaci Naše MŠ</h3>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Editor webu MŠ Žižkova</title>
+<link rel="icon" href="../assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Montserrat:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+
+<!-- ───────── přihlášení ───────── -->
+<div class="login" id="login">
+  <div class="login__card">
+    <img src="../assets/img/logo.png" width="266" height="64" alt="MŠ Žižkova">
+    <h1>Editor webu</h1>
+    <p>Klikněte na kterýkoli text na stránce a přepište ho. Fotky vyměníte kliknutím na ně.
+       Aktuality se spravují v pravém panelu. Až budete hotová, stiskněte <b>Publikovat</b>.</p>
+    <label for="klic">Přístupový klíč</label>
+    <input id="klic" type="password" autocomplete="off" placeholder="github_pat_…">
+    <p class="login__chyba" id="loginChyba" role="alert"></p>
+    <button class="btn btn--primary" id="btnPrihlasit" type="button">Přihlásit se</button>
+    <details class="login__napoveda">
+      <summary>Kde vezmu přístupový klíč?</summary>
+      <ol>
+        <li>Správce webu (účet vlastnící repozitář <code>kadlecpetr/ms-zizkova</code>) otevře GitHub →
+            <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens</b>.</li>
+        <li>Vybere <b>pouze repozitář ms-zizkova</b> a oprávnění <b>Contents: Read and write</b>
+            (volitelně <b>Actions: Read-only</b> kvůli zobrazení průběhu publikace).</li>
+        <li>Vygenerovaný klíč pošle paní ředitelce. Uloží se jen v jejím prohlížeči a lze ho kdykoli zrušit.</li>
+      </ol>
+    </details>
+    <button class="login__offline" id="btnOffline" type="button">Vyzkoušet bez přihlášení (nic se neodešle)</button>
+  </div>
+</div>
+
+<!-- ───────── editor ───────── -->
+<header class="bar" id="bar" hidden>
+  <div class="bar__brand"><img src="../assets/img/znacka.png" alt="" width="30" height="30"><b>Editor webu</b></div>
+  <label class="bar__page"><span class="sr">Stránka</span>
+    <select id="stranka"></select></label>
+  <div class="bar__dev" role="group" aria-label="Náhled velikosti">
+    <button type="button" data-w="100%" class="is-on" title="Počítač">Počítač</button>
+    <button type="button" data-w="820px" title="Tablet">Tablet</button>
+    <button type="button" data-w="390px" title="Mobil">Mobil</button>
+  </div>
+  <div class="bar__stav" id="stav" aria-live="polite">Žádné změny</div>
+  <button type="button" class="btn btn--ghost btn--sm" id="btnZahodit">Zahodit změny</button>
+  <button type="button" class="btn btn--primary btn--sm" id="btnPublikovat" disabled>Publikovat</button>
+</header>
+
+<div class="work" id="work" hidden>
+  <main class="stage">
+    <div class="stage__loading" id="nacitani">Načítám stránku…</div>
+    <iframe id="ramec" title="Náhled stránky" class="stage__frame"></iframe>
+  </main>
+
+  <aside class="panel" aria-label="Nástroje">
+    <div class="panel__tabs" role="tablist">
+      <button type="button" role="tab" data-tab="upravy" class="is-on">Úpravy</button>
+      <button type="button" role="tab" data-tab="aktuality">Aktuality</button>
+    </div>
+
+    <section class="panel__body" data-pane="upravy">
+      <div class="napoveda">
+        <h3>Jak upravovat</h3>
+        <ul>
+          <li><b>Text:</b> klikněte do něj a pište. Označený text můžete zvýraznit nebo udělat odkaz.</li>
+          <li><b>Fotka:</b> klikněte na ni a vyberte novou.</li>
+          <li><b>Aktuality:</b> záložka nahoře.</li>
+          <li>Texty se stejným zněním (např. v patičce) se mění na všech stránkách najednou.</li>
+        </ul>
+      </div>
+      <div class="obr" id="obrPanel" hidden>
+        <h3>Vybraná fotka</h3>
+        <img id="obrNahled" alt="">
+        <label for="obrAlt">Popis fotky (pro nevidomé a vyhledávače)</label>
+        <input id="obrAlt" type="text">
+        <div class="obr__tl">
+          <label class="btn btn--primary btn--sm" for="obrSoubor">Nahradit fotku…</label>
+          <input id="obrSoubor" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+          <button type="button" class="btn btn--ghost btn--sm" id="obrVratit">Vrátit původní</button>
+        </div>
+        <p class="drobne">Fotka se automaticky zmenší na šířku nejvýše 1600 px.</p>
+      </div>
+    </section>
+
+    <section class="panel__body" data-pane="aktuality" hidden>
+      <button type="button" class="btn btn--primary btn--sm" id="btnNovaAktualita">+ Přidat aktualitu</button>
+      <p class="drobne">Nejnovější dávejte nahoru. Na úvodní stránce se ukazují první tři.</p>
+      <div id="aktualityList"></div>
+    </section>
+  </aside>
+</div>
+
+<div class="ftb" id="ftb" hidden>
+  <button type="button" data-cmd="bold" title="Tučně"><b>B</b></button>
+  <button type="button" data-cmd="italic" title="Kurzíva"><i>I</i></button>
+  <button type="button" data-cmd="link" title="Odkaz">Odkaz</button>
+  <button type="button" data-cmd="unlink" title="Odebrat odkaz">Zrušit odkaz</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="editor.js"></script>
+</body>
+</html>

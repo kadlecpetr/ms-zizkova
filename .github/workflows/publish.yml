@@ -1,0 +1,39 @@
+name: Publikace webu
+
+# Spouští se po uložení z editoru (admin/) – změní se content.json nebo nahrané fotky.
+on:
+  push:
+    branches: [main]
+    paths:
+      - content.json
+      - assets/**
+      - build.py
+      - podklady/pripravit_nahled.py
+      - admin/**
+  workflow_dispatch:
+
+concurrency:
+  group: publikace
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  nasadit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vygenerovat web (build.py používá content.json)
+        run: python3 build.py
+      - name: Připravit náhled
+        run: python3 podklady/pripravit_nahled.py "$RUNNER_TEMP/web"
+      - name: Odeslat na větev gh-pages
+        run: |
+          cd "$RUNNER_TEMP/web"
+          git init -q -b gh-pages
+          git add -A
+          git -c user.name="Editor webu" -c user.email="editor@users.noreply.github.com" \
+              commit -q -m "Nasazení: ${GITHUB_SHA::7}"
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git push -f origin gh-pages
