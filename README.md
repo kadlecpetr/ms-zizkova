@@ -414,3 +414,22 @@ v prohlížeči mapují na CSS `height` a **přebijí `aspect-ratio`**. Proto m�
 * strukturovaná data schema.org `Preschool` (Google – mapa, otevírací doba)
 * mapa přes OpenStreetMap – bez cookies třetích stran a bez API klíče
 * vlastní styl pro tisk
+
+## Editor webu pro klientku (`admin/`)
+
+Adresa: `https://kadlecpetr.github.io/ms-zizkova/admin/` (na ostré doméně `/admin/`).
+
+Klientka klikne do textu na skutečné stránce a přepíše ho, vymění fotku (automaticky se zmenší na 1600 px)
+a spravuje aktuality v panelu vpravo. **Publikovat** uloží změny do `content.json` (a nové fotky do
+`assets/img/nahrane/`) jedním commitem na `main`. Workflow `.github/workflows/publish.yml` pak spustí
+`build.py`, který změny aplikuje, a nasadí web na větev `gh-pages` (cca 1–2 min).
+
+- **Přihlášení:** fine-grained GitHub token jen pro repozitář `ms-zizkova`, oprávnění *Contents: Read and write*
+  (volitelně *Actions: Read-only* kvůli zobrazení průběhu). Uloží se jen v prohlížeči klientky; kdykoli jde zrušit.
+- **Co jde upravit:** texty (nadpisy, odstavce, seznamy, popisky, texty v harmonikách), tučné/kurzíva/odkaz
+  v označeném textu, fotky a jejich popisky, seznam aktualit. Stejné znění (např. v patičce) se mění všude.
+- **Co nejde:** menu, tlačítka, rozvržení, přidávání a mazání sekcí, dokumenty ke stažení – to zůstává v `build.py`.
+- **Jak to funguje:** `build.py` označí upravitelné prvky (`data-ek` u textů, `data-ei` u obrázků; klíč je hash
+  původního textu/zdroje) a z `content.json` použije náhrady. Text se čistí na `strong/em/br/small/a`.
+  Když se původní text v `build.py` změní, jeho dřívější úprava v `content.json` přestane platit (změní se klíč).
+- **Zkouška bez přihlášení:** v přihlašovací obrazovce „Vyzkoušet bez přihlášení“ – nic se neodešle.
