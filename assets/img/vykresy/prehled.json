@@ -1,0 +1,142 @@
+[
+  {
+    "soubor": "vykres-01.jpg",
+    "orez": {
+      "nahore": 32,
+      "dole": 152,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1346"
+  },
+  {
+    "soubor": "vykres-02.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 152,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1372"
+  },
+  {
+    "soubor": "vykres-03.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1518"
+  },
+  {
+    "soubor": "vykres-04.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1518"
+  },
+  {
+    "soubor": "vykres-05.jpg",
+    "orez": {
+      "nahore": 56,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1468"
+  },
+  {
+    "soubor": "vykres-06.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 152,
+      "vlevo": 168,
+      "vpravo": 6
+    },
+    "rozmer": "1866x1372"
+  },
+  {
+    "soubor": "vykres-07.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1518"
+  },
+  {
+    "soubor": "vykres-08.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1518"
+  },
+  {
+    "soubor": "vykres-09.jpg",
+    "orez": {
+      "nahore": 40,
+      "dole": 152,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1338"
+  },
+  {
+    "soubor": "vykres-10.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1518"
+  },
+  {
+    "soubor": "vykres-11.jpg",
+    "orez": {
+      "nahore": 16,
+      "dole": 32,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1482"
+  },
+  {
+    "soubor": "vykres-12.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1518"
+  },
+  {
+    "soubor": "vykres-13.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 152,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1372"
+  },
+  {
+    "soubor": "vykres-14.jpg",
+    "orez": {
+      "nahore": 6,
+      "dole": 6,
+      "vlevo": 6,
+      "vpravo": 6
+    },
+    "rozmer": "2028x1518"
+  }
+]

@@ -1,0 +1,3 @@
+# Náhled – nesmí se indexovat, ostrý web běží na vlastní doméně.
+User-agent: *
+Disallow: /
